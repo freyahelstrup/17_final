@@ -32,6 +32,25 @@ public class Messages {
 			,"Lejesoldater"				//Field 19
 			,"Tårn"						//Field 20
 			,"Slot"						//Field 21
+			,"Guldmine"					//Field 22
+			,"Stamme Lejr"				//Field 23
+			,"Sejl nr. 2"				//Field 24
+			,"Krater"					//Field 25
+			,"Bjerg"					//Field 26
+			,"Bjerghytter"			    //Field 27
+			,"Kold Ørken"				//Field 28
+			,"Hav Grover"				//Field 29
+			,"Grotte"					//Field 30
+			,"Varulvemuren"				//Field 31
+			,"Kloster"					//Field 32
+			,"Campingvogn"				//Field 33
+			,"Sørøverskibet"			//Field 34
+			,"Hullet"					//Field 35
+			,"Bjergby"					//Field 36
+			,"Den sydlige hovedstad"	//Field 37
+			,"Palads"					//Field 38
+			,"Lejesoldater"				//Field 39
+			,"Tårn"						//Field 40
 	};
 	private static String[] boardMessages = {
 			"Pris:",				//0	
