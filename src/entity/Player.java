@@ -9,8 +9,8 @@ public class Player {
 	private String choice;
 	private int prisonCount; //counts number of turns in prison. If 0 then player is not in prison.
 	private int equalCount; //counts number of equal diceValues in DiceCup in a row.
-//	private Ownable[] ownedFields;
-	
+	private DiceCup lastThrow;
+
 	public Player(int id, String name, Piece piece, Account account){
 		this.id = id;
 		this.name = name;
@@ -60,21 +60,13 @@ public class Player {
 		this.equalCount = equalCount;
 	}
 	
-//	public Ownable[] getOwnedFields(){
-//
-//		return ownedFields;		
-//
-//	}
+	public DiceCup getLastThrow(){
+		return lastThrow;
+	}
 	
-//	public void setOwnedField(Ownable field){
-//		//set next empty position in Ownable array to the given field
-//		for (int i = 0; i<ownedFields.length;i++){
-//			if (ownedFields[i] == null){
-//				ownedFields[i] = field;
-//				break; //exit the loop
-//			}
-//		}
-//
-//	}
+	public void setLastThrow(DiceCup lastThrow){
+		this.lastThrow = lastThrow;
+	}
+	
 	
 }

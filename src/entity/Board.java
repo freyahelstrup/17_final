@@ -9,7 +9,7 @@ public class Board {
 
 		fields = new Field[40];
 		
-		fields[0] = new Refuge(1,Color.white);		//startField
+		fields[0] = new Tax(1, Color.red, 10, 400);
 
 	}
 	
