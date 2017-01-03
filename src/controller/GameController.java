@@ -44,6 +44,7 @@ public class GameController {
 
 		while (winnerFound == false){
 			
+			new TurnController(currentPlayer,board);
 
 			if (players.length == 1){
 				winnerFound = true;
