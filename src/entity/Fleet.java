@@ -3,7 +3,7 @@ package entity;
 import java.awt.Color;
 
 public class Fleet extends Ownable {
-	
+
 	private final int RENT_1 = 25;
 	private final int RENT_2 = 50;
 	private final int RENT_3 = 100;
@@ -17,15 +17,17 @@ public class Fleet extends Ownable {
 	public int getRent() {
 		int ownedFleets = 0;
 		int rent = 0;
-		
-		for (Ownable i : this.getOwner().getAccount().getOwnedFields()){
-			
-			if (i instanceof Fleet){
-				ownedFleets++;
+
+		if (this.getOwner() != null){
+			for (Ownable i : this.getOwner().getAccount().getOwnedFields()){
+
+				if (i instanceof Fleet){
+					ownedFleets++;
+				}
+
 			}
-			
 		}
-		
+
 		switch (ownedFleets){
 		case 1: rent = RENT_1; break;
 		case 2: rent = RENT_2; break;
@@ -33,7 +35,7 @@ public class Fleet extends Ownable {
 		case 4: rent = RENT_4; break;
 		default: rent = 0;
 		}
-		
+
 		return rent;
 	}
 

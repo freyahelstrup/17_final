@@ -11,6 +11,10 @@ public abstract class Field {
 		this.color = color;
 	}
 	
+	public Color getColor(){
+		return color;
+	}
+	
 	public abstract void landOnField(Player player);
 	
 }

@@ -1,0 +1,78 @@
+package controller;
+
+import desktop_codebehind.Car;
+import desktop_fields.Street;
+import desktop_resources.GUI;
+import entity.*;
+
+public class GUIController {
+
+	public static void initializeBoard(Board board){
+		Field[] fields = board.getFields();
+		Street[] graphicfields = new Street[fields.length];
+		
+		for(int i = 0; i < fields.length; i++){
+			graphicfields[i] = new Street.Builder()
+					.setBgColor(fields[i].getColor())
+					.setTitle(Messages.getFieldNames()[i])
+					.setDescription(Messages.getFieldNames()[i])
+					.setSubText(determineSubText(board, i))
+					.setRent(determineRent(board, i))
+					.build();	
+		}
+
+		GUI.create(graphicfields);
+		GUI.displayChanceCard();
+	}
+	
+	public static void addPlayer(Player player){
+		Car car = new Car.Builder()
+				.primaryColor(player.getPiece().getColor())
+				.build();
+		GUI.addPlayer(player.getName(), player.getAccount().getBalance(), car);
+		GUI.setBalance(player.getName(), player.getAccount().getBalance());
+		GUI.removeAllCars(player.getName());
+	}
+
+	public static void removeAllCars(Player player){
+		GUI.removeAllCars(player.getName());
+	}
+	
+	private static String determineSubText(Board board, int fieldNumber){
+		Field[] fields = board.getFields();
+		
+		String text = "";
+		if(fields[fieldNumber] instanceof Ownable){
+			text += Messages.getBoardMessages()[0]; //Price:
+			text += " " + String.valueOf(((Ownable) fields[fieldNumber]).getPrice());
+
+		}
+		else if(fields[fieldNumber] instanceof Tax){
+			text += Messages.getBoardMessages()[3]; //Pay:
+			text += " " + String.valueOf(((Tax) fields[fieldNumber]).getTaxAmount());
+			if(((Tax) fields[fieldNumber]).getTaxRate() >= 0){
+				text += " " + Messages.getBoardMessages()[4];
+				text += " " + String.valueOf(((Tax) fields[fieldNumber]).getTaxRate());
+				text += "% " + Messages.getBoardMessages()[5];
+			}
+		}
+		return text;
+	}
+	
+	private static String determineRent(Board board, int fieldNumber){ 
+		Field[] fields = board.getFields();
+		
+		String rent = "";
+		if(fields[fieldNumber] instanceof Ownable){
+			rent += Messages.getGeneralMessages()[22] + String.valueOf((((Ownable) fields[fieldNumber]).getRent()));
+		}
+
+		return rent;
+	}
+	
+	public static String getUserChoice(String message, String ... buttons){
+		return GUI.getUserSelection(message, buttons);
+	}
+	
+}
+

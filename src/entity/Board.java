@@ -19,7 +19,7 @@ public class Board {
 /**/		fields[7] = new Street(8, Color.blue, 60, 2);	//Chance
 		fields[8] = new Street(9, Color.pink, 100, 6);		//Valby Langgade
 		fields[9] = new Street(10, Color.pink, 120, 8);		//Allégade
-/**/		fields[7] = new Street(11, Color.blue, 60, 2);	//Fængsel
+/**/		fields[10] = new Street(11, Color.blue, 60, 2);	//Fængsel
 		fields[11] = new Street(12, Color.green, 140, 10);	//Frederiksberg Allé
 		fields[12] = new Brewery(13, Color.lightGray, 150);	//Tuborg
 		fields[13] = new Street(14, Color.green, 140, 10);	//Bülowsvej
@@ -46,9 +46,9 @@ public class Board {
 		fields[34] = new Street(35, Color.yellow, 320, 28);	//Nygade
 		fields[35] = new Fleet(36, Color.lightGray, 200); 	//D/S Bornholm
 /**/		fields[36] = new Street(37, Color.blue, 60, 2);	//Chance
-		fields[37] = new Street(38, Color.black, 350, 35);	//Frederiksberggade
+		fields[37] = new Street(38, Color.cyan, 350, 35);	//Frederiksberggade
 		fields[38] = new Tax(39, Color.lightGray, 0, 100); 	//Ekstraordinær statsskat
-		fields[39] = new Street(40, Color.black, 400, 50);	//Rådhuspladsen
+		fields[39] = new Street(40, Color.cyan, 400, 50);	//Rådhuspladsen
 		
 	}
 	
