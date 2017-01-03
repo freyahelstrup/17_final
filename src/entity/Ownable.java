@@ -13,7 +13,29 @@ public abstract class Ownable extends Field{
 	}
 	
 	public void landOnField(Player player){
+		int balance = player.getAccount().getBalance();
 		
+		if (owner == null && balance >= price){
+			if (player.getChoice().equals(Messages.getGeneralMessages()[1]));
+			{//user chooses yes
+				owner = player;
+				player.getAccount().setOwnedField(this);
+				player.getAccount().setBalance(balance-price);
+			}
+		}
+		else if (owner.getAccount().getBalance() > 0){//pay rent to owner if he is not bankrupt
+			int rent = 0;
+			if (this instanceof Brewery){
+				//when LaborCamp we should multiply dice sum with 100 and number of owned labor camps
+				rent = getRent()*player.getLastThrow().getSum();
+			}
+			else{
+				rent = getRent();
+			}
+			
+			owner.getAccount().setBalance(owner.getAccount().getBalance() + rent);
+			player.getAccount().setBalance(balance - rent);		
+		}
 	}
 	
 	public int getPrice(){
