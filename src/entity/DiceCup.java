@@ -14,12 +14,36 @@ public class DiceCup {
 		}
 	}
 	
+	public Dice[] getDice(){
+		return dice;
+	}
+	
 	public int getSum(){
 		int sum = 0;
 		for (Dice i : dice){
 			sum += i.getValue();
 		}
 		return sum;
+	}
+	
+	public void throwDice(){
+		for (Dice i : dice){
+			i.setRandom();
+		}
+	}
+	
+	public boolean isEqual(){
+		boolean isEqual = true;
+		int value = dice[0].getValue();
+		
+		//Checks if the first value of dice is equal to the rest
+		for (Dice i : dice){
+			if (value != i.getValue()){
+				isEqual = false;
+			}
+		}
+		
+		return isEqual;
 	}
 	
 }
