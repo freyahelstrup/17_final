@@ -23,6 +23,9 @@ public abstract class Ownable extends Field{
 				player.getAccount().setBalance(balance-price);
 			}
 		}
+		else if (owner == null){
+			
+		}
 		else if (owner.getAccount().getBalance() > 0){//pay rent to owner if he is not bankrupt
 			int rent = 0;
 			if (this instanceof Brewery){

@@ -117,6 +117,7 @@ public class Messages {
 			/*23*/	"Leje: 500, 1000, 2000, 5000",
 			/*24*/	"Leje: 100*øjne*labor camps ejet",
 			/*25*/  "Du har ikke nok penge til at købe dette felt.",
+			/*26*/ 	"De er landet på ",
 	};
 
 	public static String[] getChanceMessages(){
