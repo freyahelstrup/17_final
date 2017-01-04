@@ -74,6 +74,13 @@ public class GameController {
 		}
 
 		GUIController.removeAllCars(player);
+		
+		//puts players owned fields back on sale
+		for (Ownable i : player.getAccount().getOwnedFields()){
+			GUIController.setFieldOwner(null, i.getId());
+			i.setOwner(null);
+		}
+		
 	}
 
 	protected Player defineNextPlayer(Player currentPlayer){
