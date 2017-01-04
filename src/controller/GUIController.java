@@ -102,7 +102,7 @@ public class GUIController {
 		return GUI.getUserSelection(message, options);
 	}
 	
-	public static String getUserButtonPress(String message, String ... buttons){
+	public static String getUserButtonPressed(String message, String ... buttons){
 		return GUI.getUserButtonPressed(message, buttons);
 	}
 
