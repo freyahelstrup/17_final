@@ -29,15 +29,15 @@ public abstract class Ownable extends Field{
 			GUIController.showMessage(Messages.getGeneralMessages()[25]); //Message sent, you do not have enough money to buy the field
 		}
 		else if (owner.getAccount().getBalance() > 0){//pay rent to owner if he is not bankrupt
-			int rent = getRent();
-			/*
+			int rent = 0;
 			if (this instanceof Brewery){
-				//Brewery 
-				//rent = getRent()*player.getLastThrow().getSum();
+				//Brewery is a special case as we need the player's last dice throw to calculate rent
+				//Since we do not pass a player to getRent(), we need to do this multiplication on this level
+				rent = getRent()*player.getLastThrow().getSum();
 			}
 			else{
 				rent = getRent();
-			}*/
+			}
 			
 			owner.getAccount().setBalance(owner.getAccount().getBalance() + rent);
 			player.getAccount().setBalance(balance - rent);		
