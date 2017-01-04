@@ -1,0 +1,99 @@
+package controller;
+
+import java.awt.Color;
+
+import entity.*;
+
+public class GameController {
+	private Board board; //An instance of the Board class
+	private Player[] players; //An array of Players
+
+	public GameController(){
+		board = new Board();
+		GUIController.initializeBoard(board);
+	}
+
+	public void resetGame(int playerAmount, int balance){
+		players = new Player[playerAmount];
+		Color color = null;
+		
+		for (int i = 0; i < players.length; i++){
+			
+			switch (i){
+			case 0: color = Color.red; break;
+			case 1: color = Color.green; break;
+			case 2: color = Color.yellow; break;
+			case 3: color = Color.blue; break;
+			case 4: color = Color.white; break;
+			case 5: color = Color.black; break;
+			default: System.exit(1);
+			}
+			
+			players[i] = new Player(i+1,Messages.getGeneralMessages()[10]+(i+1),new Piece(color), new Account(balance));
+
+			GUIController.addPlayer(players[i]);
+		}
+	}
+
+	public void playGame(){
+		boolean winnerFound = false;
+		Player currentPlayer;
+
+		//first player is player 1
+		currentPlayer = players[0];
+
+		while (winnerFound == false){
+			
+			new TurnController(currentPlayer,board);
+			
+			if (currentPlayer.getAccount().getBalance() < 0){
+				removePlayer(currentPlayer);
+			}
+
+			if (players.length == 1){
+				winnerFound = true;
+			}
+			else{
+				currentPlayer = defineNextPlayer(currentPlayer);
+			}
+		}
+	}
+
+	protected void removePlayer(Player player){
+		Player[] temp;
+		temp = players;
+
+		players = new Player[temp.length-1];
+
+		int playerCount = 0;
+		for (int i = 0; i<temp.length;i++){
+			if (temp[i] != player){
+				players[playerCount] = temp[i];
+				playerCount++;
+			}
+		}
+
+		GUIController.removeAllCars(player);
+	}
+
+	protected Player defineNextPlayer(Player currentPlayer){
+		Player nextPlayer;
+
+		if (currentPlayer == players[players.length-1]){
+			nextPlayer = players[0];
+		}
+		else{
+			//find currentPlayer's index in players
+			int arrayIndex = 0;
+			for (int i=0;i<players.length;i++){
+				if (currentPlayer == players[i]){
+					arrayIndex=i;
+				}
+			}
+			nextPlayer = players[arrayIndex+1];
+		}
+
+		return nextPlayer;
+	}
+
+}

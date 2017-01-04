@@ -8,10 +8,15 @@ public class DiceCup {
 	public DiceCup(int diceSides, int diceAmount){
 		dice = new Dice[diceAmount];
 		
-		for (Dice i : dice){
-			i = new Dice(diceSides);
-			i.setRandom();
+		for (int i = 0; i<dice.length; i++){
+			dice[i] = new Dice(diceSides);
 		}
+		
+		throwDice();
+	}
+	
+	public Dice[] getDice(){
+		return dice;
 	}
 	
 	public int getSum(){
@@ -20,6 +25,26 @@ public class DiceCup {
 			sum += i.getValue();
 		}
 		return sum;
+	}
+	
+	public void throwDice(){
+		for (Dice i : dice){
+			i.setRandom();
+		}
+	}
+	
+	public boolean isEqual(){
+		boolean isEqual = true;
+		int value = dice[0].getValue();
+		
+		//Checks if the first value of dice is equal to the rest
+		for (Dice i : dice){
+			if (value != i.getValue()){
+				isEqual = false;
+			}
+		}
+		
+		return isEqual;
 	}
 	
 }
