@@ -31,7 +31,7 @@ public class GUIController {
 				.build();
 		GUI.addPlayer(player.getName(), player.getAccount().getBalance(), car);
 		GUI.setBalance(player.getName(), player.getAccount().getBalance());
-		GUI.removeAllCars(player.getName());
+		GUI.setCar(1,player.getName());
 	}
 
 	public static void removeAllCars(Player player){
@@ -70,9 +70,26 @@ public class GUIController {
 		return rent;
 	}
 	
-	public static String getUserChoice(String message, String ... buttons){
-		return GUI.getUserSelection(message, buttons);
+	public static String getUserChoice(String message, String ... options){
+		return GUI.getUserSelection(message, options);
 	}
+	
+	public static String getUserButtonPress(String message, String ... buttons){
+		return GUI.getUserButtonPressed(message, buttons);
+	}
+
+	public static void showMessage(String message){
+		GUI.showMessage(message);
+	}
+	
+	public static void setDice(DiceCup dice){
+		GUI.setDice(dice.getDice()[0].getValue(), dice.getDice()[1].getValue());
+	}
+	
+	public static void setCar(Player player){
+		GUI.setCar(player.getPiece().getPosition(), player.getName());
+	}
+	
 	
 }
 

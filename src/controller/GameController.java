@@ -45,9 +45,16 @@ public class GameController {
 		while (winnerFound == false){
 			
 			new TurnController(currentPlayer,board);
+			
+			if (currentPlayer.getAccount().getBalance() < 0){
+				removePlayer(currentPlayer);
+			}
 
 			if (players.length == 1){
 				winnerFound = true;
+			}
+			else{
+				currentPlayer = defineNextPlayer(currentPlayer);
 			}
 		}
 	}
@@ -84,15 +91,6 @@ public class GameController {
 				}
 			}
 			nextPlayer = players[arrayIndex+1];
-		}
-
-		//remove player if balance = 0
-		if (currentPlayer.getAccount().getBalance() == 0){
-			removePlayer(currentPlayer);
-		}
-
-		if (players.length == 1){
-			nextPlayer = players[0];
 		}
 
 		return nextPlayer;
