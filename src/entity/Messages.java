@@ -13,12 +13,12 @@ public class Messages {
 	private static String[] fieldNames = {
 			"Start" 					//Field 1
 			,"Rødovrevej"				//Field 2
-			,"Chance"					//Field 3
+			,"Prøv lykken"				//Field 3
 			,"Hvidovre"					//Field 4
 			,"Betal Indkomstskat"		//Field 5
 			,"Øresund A/S"				//Field 6
 			,"Roskildevej"			    //Field 7
-			,"Chance"					//Field 8
+			,"Prøv lykken"				//Field 8
 			,"Valby Langgade"			//Field 9
 			,"Allégade"					//Field 10
 			,"Fængsel"					//Field 11
@@ -28,12 +28,12 @@ public class Messages {
 			,"Gl. Kongevej"				//Field 15
 			,"D.F.D.S"					//Field 16
 			,"Bernstorffsvej"			//Field 17
-			,"Chance"					//Field 18
+			,"Prøv lykken"				//Field 18
 			,"Hellerupvej"				//Field 19
 			,"Strandvej"				//Field 20
 			,"Helle"					//Field 21
 			,"Trianglen"				//Field 22
-			,"Chance"					//Field 23
+			,"Prøv lykken"				//Field 23
 			,"Østerbrogade"				//Field 24
 			,"Grønningen"				//Field 25
 			,"Ø.K."						//Field 26
@@ -41,13 +41,13 @@ public class Messages {
 			,"Kgs. Nytorv"				//Field 28
 			,"Carlsberg"				//Field 29
 			,"Østergade"				//Field 30
-			,"Gå til fængsel"			//Field 31
+			,"De sættes i fængsel"		//Field 31
 			,"Amagertorv"				//Field 32
 			,"Vimmelskaftet"			//Field 33
-			,"Chance"					//Field 34
+			,"Prøv lykken"				//Field 34
 			,"Nygade"					//Field 35
 			,"D/S Bornholm"				//Field 36
-			,"Chance"					//Field 37
+			,"Prøv lykken"				//Field 37
 			,"Frederiksberggade"		//Field 38
 			,"Ekstraordinær Statsskat"	//Field 39
 			,"Rådhuspladsen"			//Field 40
