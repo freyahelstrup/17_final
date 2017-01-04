@@ -118,6 +118,14 @@ public class GUIController {
 		GUI.setCar(player.getPiece().getPosition(), player.getName());
 	}
 	
+	public static void setFieldOwner(Player player, int fieldNumber){
+		if (player == null){
+			GUI.removeOwner(fieldNumber);
+		}
+		else {
+			GUI.setOwner(fieldNumber, player.getName());
+		}
+	}
 	
 }
 
