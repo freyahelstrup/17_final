@@ -1,7 +1,6 @@
 package controller;
 
 import desktop_codebehind.Car;
-import desktop_fields.Street;
 import desktop_resources.GUI;
 import entity.*;
 
@@ -9,16 +8,46 @@ public class GUIController {
 
 	public static void initializeBoard(Board board){
 		Field[] fields = board.getFields();
-		Street[] graphicfields = new Street[fields.length];
+		desktop_fields.Field[] graphicfields = new desktop_fields.Field[fields.length];
 		
 		for(int i = 0; i < fields.length; i++){
-			graphicfields[i] = new Street.Builder()
-					.setBgColor(fields[i].getColor())
-					.setTitle(Messages.getFieldNames()[i])
-					.setDescription(Messages.getFieldNames()[i])
-					.setSubText(determineSubText(board, i))
-					.setRent(determineRent(board, i))
-					.build();	
+			if (fields[i] instanceof Brewery){
+				graphicfields[i] = new desktop_fields.Brewery.Builder()
+						.setTitle(Messages.getFieldNames()[i])
+						.setDescription(Messages.getFieldNames()[i])
+						.setSubText(determineSubText(board, i))
+						.build();	
+			}
+			else if (fields[i] instanceof Fleet){
+				graphicfields[i] = new desktop_fields.Shipping.Builder()
+						.setTitle(Messages.getFieldNames()[i])
+						.setDescription(Messages.getFieldNames()[i])
+						.setSubText(determineSubText(board, i))
+						.build();	
+			}
+			else if (fields[i] instanceof Tax){
+				graphicfields[i] = new desktop_fields.Tax.Builder()
+						.setTitle(determineSubText(board, i))
+						.setDescription(Messages.getFieldNames()[i])
+						.setSubText(determineSubText(board, i))
+						.build();	
+			}
+			else if (i == 0){
+				graphicfields[i] = new desktop_fields.Start.Builder()
+						.setTitle(Messages.getFieldNames()[i])
+						.setDescription(Messages.getFieldNames()[i])
+						.setSubText(determineSubText(board, i))
+						.build();	
+			}
+			else{
+				graphicfields[i] = new desktop_fields.Street.Builder()
+						.setBgColor(fields[i].getColor())
+						.setTitle(Messages.getFieldNames()[i])
+						.setDescription(Messages.getFieldNames()[i])
+						.setSubText(determineSubText(board, i))
+						.setRent(determineRent(board, i))
+						.build();	
+			}
 		}
 
 		GUI.create(graphicfields);
@@ -45,12 +74,11 @@ public class GUIController {
 		if(fields[fieldNumber] instanceof Ownable){
 			text += Messages.getBoardMessages()[0]; //Price:
 			text += " " + String.valueOf(((Ownable) fields[fieldNumber]).getPrice());
-
 		}
 		else if(fields[fieldNumber] instanceof Tax){
 			text += Messages.getBoardMessages()[3]; //Pay:
 			text += " " + String.valueOf(((Tax) fields[fieldNumber]).getTaxAmount());
-			if(((Tax) fields[fieldNumber]).getTaxRate() >= 0){
+			if(((Tax) fields[fieldNumber]).getTaxRate() > 0){
 				text += " " + Messages.getBoardMessages()[4];
 				text += " " + String.valueOf(((Tax) fields[fieldNumber]).getTaxRate());
 				text += "% " + Messages.getBoardMessages()[5];
