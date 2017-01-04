@@ -4,33 +4,38 @@ import desktop_resources.GUI;
 import entity.*;
 
 public class TurnController {
-	private DiceCup dice; //An instance of the DiceCup class
-	private Field currentField;
-	private Player player;
-	private Board board;
+	protected DiceCup dice; //An instance of the DiceCup class
+	protected Field currentField;
+	protected Player player;
+	protected Board board;
 	
 	public TurnController(Player player, Board board){
 		this.player = player;
 		this.board = board;
 		
 		dice = new DiceCup(6,2);
-		
-		determineUserInput(new String[]{Messages.getGeneralMessages()[11] + player.getName() + Messages.getGeneralMessages()[12],
-										Messages.getGeneralMessages()[7]});
-		
-		throwDice();
-		movePiece();
-		landOnField();
 
 	}
 	
-	private void throwDice(){
+	public void playTurn(){
+		//This used to be in the constructor, but problems arrived when trying to implement
+		//a test class inheriting from this class as it requires the super class constructor to be used,
+		//which in turn prevents us from doing any of our own determined inputs
+		determineUserInput(new String[]{Messages.getGeneralMessages()[11] + player.getName() + Messages.getGeneralMessages()[12],
+				Messages.getGeneralMessages()[7]});
+
+		throwDice();
+		movePiece();
+		landOnField();
+	}
+	
+	protected void throwDice(){
 		dice.throwDice();
 		player.setLastThrow(dice);
 		GUIController.setDice(dice);
 	}
 
-	private void movePiece(){
+	protected void movePiece(){
 		//if (player.getPiece().getPosition() != 0){
 			/*
 			 * If there has already been placed a car, we remove it before placing a new one
@@ -55,7 +60,7 @@ public class TurnController {
 		currentField = board.getFields()[position-1];
 	}
 
-	private void landOnField(){
+	protected void landOnField(){
 		// Landed on
 		GUIController.showMessage((Messages.getGeneralMessages()[26] + Messages.getFieldNames()[(player.getPiece().getPosition())-1]));
 		
@@ -93,7 +98,7 @@ public class TurnController {
 	}
 	
 	
-	private String determineUserInput(String[] input){
+	protected String determineUserInput(String[] input){
 		String text;
 		switch(input.length) {
 			case 1:

@@ -44,7 +44,8 @@ public class GameController {
 
 		while (winnerFound == false){
 			
-			new TurnController(currentPlayer,board);
+			TurnController turn = new TurnController(currentPlayer,board);
+			turn.playTurn();
 			
 			if (currentPlayer.getAccount().getBalance() < 0){
 				removePlayer(currentPlayer);
