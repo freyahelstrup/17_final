@@ -16,7 +16,7 @@ public abstract class Ownable extends Field{
 		int balance = player.getAccount().getBalance();
 		
 		if (owner == null && balance >= price){
-			if (player.getChoice().equals(Messages.getGeneralMessages()[1]));
+			if (player.getChoice().equals(Messages.getGeneralMessages()[1]))
 			{//user chooses yes
 				owner = player;
 				player.getAccount().setOwnedField(this);

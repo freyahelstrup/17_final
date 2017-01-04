@@ -127,5 +127,9 @@ public class GUIController {
 		}
 	}
 	
+	public static void setPlayerBalance(Player player){
+		GUI.setBalance(player.getName(), player.getAccount().getBalance());
+	}
+	
 }
 

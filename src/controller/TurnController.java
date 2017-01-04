@@ -1,5 +1,6 @@
 package controller;
 
+import desktop_resources.GUI;
 import entity.*;
 
 public class TurnController {
@@ -14,9 +15,13 @@ public class TurnController {
 		
 		dice = new DiceCup(6,2);
 		
+		determineUserInput(new String[]{Messages.getGeneralMessages()[11] + player.getName() + Messages.getGeneralMessages()[12],
+										Messages.getGeneralMessages()[7]});
+		
 		throwDice();
 		movePiece();
 		landOnField();
+
 	}
 	
 	private void throwDice(){
@@ -51,7 +56,51 @@ public class TurnController {
 	}
 
 	private void landOnField(){
-		GUIController.showMessage(Messages.getGeneralMessages()[7]);
+		// Landed on
+		GUIController.showMessage((Messages.getGeneralMessages()[26] + Messages.getFieldNames()[(player.getPiece().getPosition())-1]));
+		
+		// Do you wish to buy it?
+		if (currentField instanceof Ownable) {
+			Player owner = ((Ownable) currentField).getOwner();
+			int price = ((Ownable) currentField).getPrice();
+			
+			if (owner == null && player.getAccount().getBalance() >= ((Ownable) currentField).getPrice()) {
+				String playerChoice = determineUserInput(new String[]{
+						Messages.getGeneralMessages()[0] + ((Ownable) currentField).getPrice(), //Do you want to buy field? 
+						Messages.getGeneralMessages()[1], 	// Yes
+						Messages.getGeneralMessages()[2] 	// No
+								});
+						
+				player.setChoice(playerChoice);
+				if (playerChoice.equals(Messages.getGeneralMessages()[1])) { // User chooses yes		
+					GUIController.setFieldOwner(player, player.getPiece().getPosition());
+				}
+			}
+		}
+		currentField.landOnField(player);
+		GUIController.setPlayerBalance(player);
 	}
 	
+	
+	private String determineUserInput(String[] input){
+		String text;
+		switch(input.length) {
+			case 1:
+				text = GUIController.getUserButtonPressed(input[0]);
+				break;
+			case 2:
+				text = GUIController.getUserButtonPressed(input[0], input[1]);
+				break;
+			case 3:
+				text = GUIController.getUserButtonPressed(input[0], input[1], input[2]);
+				break;
+			case 4: 
+				text = GUIController.getUserButtonPressed(input[0], input[1], input[2], input[3]);
+				break;
+			default:
+				text = "";
+				break;
+		}
+		return text;
+	}
 }
