@@ -8,10 +8,11 @@ public class DiceCup {
 	public DiceCup(int diceSides, int diceAmount){
 		dice = new Dice[diceAmount];
 		
-		for (Dice i : dice){
-			i = new Dice(diceSides);
-			i.setRandom();
+		for (int i = 0; i<dice.length; i++){
+			dice[i] = new Dice(diceSides);
 		}
+		
+		throwDice();
 	}
 	
 	public Dice[] getDice(){
