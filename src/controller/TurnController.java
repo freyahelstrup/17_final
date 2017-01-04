@@ -30,7 +30,7 @@ public class TurnController {
 			/*
 			 * If there has already been placed a car, we remove it before placing a new one
 			 * We avoid bugs in the first turn by having the position set to 0
-			 * Every field is then a value of 1-21.
+			 * Every field is then a value of 1-21. 
 			 */
 			GUIController.removeAllCars(player);
 		//}
