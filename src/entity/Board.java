@@ -11,7 +11,7 @@ public class Board {
 		
 /**/		fields[0] = new Street(1, Color.white, 60, new int[]{0,0,0,0,0,0});	//Start
 		fields[1] = new Street(2, Color.cyan, 60, new int[]{2,10,30,90,160,250});		//Rødovrevej
-/**/		fields[2] = new Street(3, Color.white, 60, new int[]{});	//Chance
+/**/		fields[2] = new Chance(3, Color.white);	//Chance
 		fields[3] = new Street(4, Color.cyan, 60, new int[]{4,20,60,180,320,540});		//Hvidovre
 		fields[4] = new Tax(5, Color.white, 10, 200); 	//Betal Indkomstskat
 		fields[5] = new Fleet(6, Color.white, 200); 	//Øresund A/S
