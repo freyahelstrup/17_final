@@ -11,46 +11,46 @@ public class Messages {
 			"",
 	};
 	private static String[] fieldNames = {
-			"Fæstning" 					//Field 1
-			,"Guldmine"					//Field 2
-			,"Stamme Lejr"				//Field 3
-			,"Sejl nr. 2"				//Field 4
-			,"Krater"					//Field 5
-			,"Bjerg"					//Field 6
-			,"Bjerghytter"			    //Field 7
-			,"Kold Ørken"				//Field 8
-			,"Hav Grover"				//Field 9
-			,"Grotte"					//Field 10
-			,"Varulvemuren"				//Field 11
-			,"Kloster"					//Field 12
-			,"Campingvogn"				//Field 13
-			,"Sørøverskibet"			//Field 14
-			,"Hullet"					//Field 15
-			,"Bjergby"					//Field 16
-			,"Den sydlige hovedstad"	//Field 17
-			,"Palads"					//Field 18
-			,"Lejesoldater"				//Field 19
-			,"Tårn"						//Field 20
-			,"Slot"						//Field 21
-			,"Guldmine"					//Field 22
-			,"Stamme Lejr"				//Field 23
-			,"Sejl nr. 2"				//Field 24
-			,"Krater"					//Field 25
-			,"Bjerg"					//Field 26
-			,"Bjerghytter"			    //Field 27
-			,"Kold Ørken"				//Field 28
-			,"Hav Grover"				//Field 29
-			,"Grotte"					//Field 30
-			,"Varulvemuren"				//Field 31
-			,"Kloster"					//Field 32
-			,"Campingvogn"				//Field 33
-			,"Sørøverskibet"			//Field 34
-			,"Hullet"					//Field 35
-			,"Bjergby"					//Field 36
-			,"Den sydlige hovedstad"	//Field 37
-			,"Palads"					//Field 38
-			,"Lejesoldater"				//Field 39
-			,"Tårn"						//Field 40
+			"Start" 					//Field 1
+			,"Rødovrevej"				//Field 2
+			,"Chance"					//Field 3
+			,"Hvidovre"					//Field 4
+			,"Betal Indkomstskat"		//Field 5
+			,"Øresund A/S"				//Field 6
+			,"Roskildevej"			    //Field 7
+			,"Chance"					//Field 8
+			,"Valby Langgade"			//Field 9
+			,"Allégade"					//Field 10
+			,"Fængsel"					//Field 11
+			,"Frederiksberg Allé"		//Field 12
+			,"Tuborg"					//Field 13
+			,"Bülowsvej"				//Field 14
+			,"Gl. Kongevej"				//Field 15
+			,"D.F.D.S"					//Field 16
+			,"Bernstorffsvej"			//Field 17
+			,"Chance"					//Field 18
+			,"Hellerupvej"				//Field 19
+			,"Strandvej"				//Field 20
+			,"Helle"					//Field 21
+			,"Trianglen"				//Field 22
+			,"Chance"					//Field 23
+			,"Østerbrogade"				//Field 24
+			,"Grønningen"				//Field 25
+			,"Ø.K."						//Field 26
+			,"Bredgade"					//Field 27
+			,"Kgs. Nytorv"				//Field 28
+			,"Carlsberg"				//Field 29
+			,"Østergade"				//Field 30
+			,"Gå til fængsel"			//Field 31
+			,"Amagertorv"				//Field 32
+			,"Vimmelskaftet"			//Field 33
+			,"Chance"					//Field 34
+			,"Nygade"					//Field 35
+			,"D/S Bornholm"				//Field 36
+			,"Chance"					//Field 37
+			,"Frederiksberggade"		//Field 38
+			,"Ekstraordinær Statsskat"	//Field 39
+			,"Rådhuspladsen"			//Field 40
 	};
 	private static String[] boardMessages = {
 			"Pris:",				//0	
