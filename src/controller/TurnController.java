@@ -77,6 +77,17 @@ public class TurnController {
 				}
 			}
 		}
+		else if( currentField instanceof Tax) {
+			if ( ((Tax) currentField).getTaxRate() > 0) {
+				
+			String playerChoice = determineUserInput(new String[]{
+					Messages.getGeneralMessages()[3],
+					Messages.getGeneralMessages()[4] + ((Tax) currentField).getTaxRate() + Messages.getGeneralMessages()[5],	// Percent taxes of all assets
+					Messages.getGeneralMessages()[4] + ((Tax) currentField).getTaxAmount()});	// Fixed amount of tax
+			
+			player.setChoice(playerChoice);
+			}
+		}
 		currentField.landOnField(player);
 		GUIController.setPlayerBalance(player);
 	}
