@@ -85,9 +85,8 @@ public class TurnController {
 				if (playerChoice.equals(Messages.getGeneralMessages()[1])) { // User chooses yes		
 					GUIController.setFieldOwner(player, player.getPiece().getPosition());
 				}
-			}
-	
-		// You don't have enough money to buy field
+			}	
+			// You don't have enough money to buy field
 			else if(owner == null && playerBalance < price){ 
 				determineUserInput(new String[]{player.getName() + ": " + Messages.getGeneralMessages()[25], 
 						Messages.getGeneralMessages()[13]}); 
@@ -100,8 +99,8 @@ public class TurnController {
 		// You have to pay rent
 			else if (owner.getAccount().getBalance() > 0){//pay rent to owner if he is not bankrupt
 				int rent = 0;
-				if (currentField instanceof Fleet){
-					//when LaborCamp we should multiply dice sum with 100 and number of owned labor camps
+				if (currentField instanceof Brewery){
+					//when brewery we should multiply dice sum with 4 or 10, depending on the amount of owned brewery from the same owner.
 					rent = ((Ownable) currentField).getRent()*player.getLastThrow().getSum();
 				}
 				else{
