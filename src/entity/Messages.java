@@ -104,7 +104,7 @@ public class Messages {
 			/*10*/	"Spiller ",
 			/*11*/	"Det er ",
 			/*12*/	"'s tur.",
-			/*13*/	"Du er landet på en arbejdslejr og skal slå med terningerne, for at bestemme hvor meget du skal betale i leje.",
+			/*13*/	"OK",
 			/*14*/	"Tillykke ",
 			/*15*/	", du har vundet spillet!",
 			/*16*/	" i leje.",
