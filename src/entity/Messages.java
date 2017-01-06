@@ -118,6 +118,8 @@ public class Messages {
 			/*24*/	"Leje: 100*øjne*labor camps ejet",
 			/*25*/  "Du har ikke nok penge til at købe dette felt.",
 			/*26*/ 	"De er landet på ",
+			/*27*/	"De har passeret ",
+			/*28*/	", og modtager ",
 	};
 
 	public static String[] getChanceMessages(){
