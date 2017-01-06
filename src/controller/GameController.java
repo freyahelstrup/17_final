@@ -78,7 +78,7 @@ public class GameController {
 		
 		//puts players owned fields back on sale
 		for (Ownable i : player.getAccount().getOwnedFields()){
-			GUIController.setFieldOwner(null, i.getId());
+			GUIController.removeFieldOwner(i.getId());
 			i.setOwner(null);
 		}
 		

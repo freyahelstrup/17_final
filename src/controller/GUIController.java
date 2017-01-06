@@ -16,6 +16,7 @@ public class GUIController {
 						.setTitle(Messages.getFieldNames()[i])
 						.setDescription(Messages.getFieldNames()[i])
 						.setSubText(determineSubText(board, i))
+						.setRent(determineRent(board, i))
 						.build();	
 			}
 			else if (fields[i] instanceof Fleet){
@@ -23,6 +24,7 @@ public class GUIController {
 						.setTitle(Messages.getFieldNames()[i])
 						.setDescription(Messages.getFieldNames()[i])
 						.setSubText(determineSubText(board, i))
+						.setRent(determineRent(board, i))
 						.build();	
 			}
 			else if (fields[i] instanceof Tax){
@@ -119,12 +121,11 @@ public class GUIController {
 	}
 	
 	public static void setFieldOwner(Player player, int fieldNumber){
-		if (player == null){
-			GUI.removeOwner(fieldNumber);
-		}
-		else {
 			GUI.setOwner(fieldNumber, player.getName());
-		}
+	}
+
+	public static void removeFieldOwner(int fieldNumber){
+			GUI.removeOwner(fieldNumber);
 	}
 	
 	public static void setPlayerBalance(Player player){
