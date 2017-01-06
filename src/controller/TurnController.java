@@ -27,6 +27,17 @@ public class TurnController {
 		throwDice();
 		movePiece();
 		landOnField();
+		/*
+		 * 
+		 */
+		if(dice.isEqual() == true && player.getEqualCount() != 2){
+
+			player.setEqualCount(player.getEqualCount()+1);
+		}
+		else{
+			player.setEqualCount(0);
+		}
+		
 	}
 	
 	protected void throwDice(){

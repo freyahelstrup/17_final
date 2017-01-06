@@ -89,7 +89,10 @@ public class GameController {
 	protected Player defineNextPlayer(Player currentPlayer){
 		Player nextPlayer;
 
-		if (currentPlayer == players[players.length-1]){
+		if(currentPlayer.getEqualCount() > 0){
+			nextPlayer = currentPlayer;
+		}
+		else if (currentPlayer == players[players.length-1]){
 			nextPlayer = players[0];
 		}
 		else{
