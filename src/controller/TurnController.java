@@ -129,7 +129,9 @@ public class TurnController {
 		currentField.landOnField(player);
 		GUIController.setPlayerBalance(player);
 		if (currentField instanceof Ownable){
-			GUIController.setPlayerBalance(((Ownable) currentField).getOwner());
+			if (((Ownable) currentField).getOwner() != null){
+				GUIController.setPlayerBalance(((Ownable) currentField).getOwner());
+			}
 		}
 	}
 	
