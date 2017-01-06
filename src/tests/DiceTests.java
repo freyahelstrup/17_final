@@ -11,12 +11,12 @@ public class DiceTests {
 	
 	final int throwAmount = 60000;   	//the number of times the dice is thrown
 	int[] diceCount = new int[6];		//array to count how many times each value is rolled
-	Boolean failRandom = false;
+	boolean failRandom = false;
 	boolean failOnce = false;
 	
 	Dice testDice = new Dice(6);
 	
-	// testing that each side on the dice is rolled approxamately the same number of times
+	// testing that each side on the dice is rolled approximately the same number of times
 	@Test  
 	
 	public void DiceTestRandom() {
