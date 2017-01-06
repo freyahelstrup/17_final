@@ -21,17 +21,44 @@ public class TurnController {
 		//This used to be in the constructor, but problems arrived when trying to implement
 		//a test class inheriting from this class as it requires the super class constructor to be used,
 		//which in turn prevents us from doing any of our own determined inputs
-		determineUserInput(new String[]{Messages.getGeneralMessages()[11] + player.getName() + Messages.getGeneralMessages()[12],
-				Messages.getGeneralMessages()[7]});
+		
+		boolean ownedStreets = false;
+		for (Ownable i : player.getAccount().getOwnedFields()){
+			if (i instanceof Street){
+				ownedStreets = true;
+				break;
+			}
+		}
+		
+		do{
+			//Player owns street
+			if (ownedStreets == true){
+				
+				//Do you want to throw dice or buy houses/hotels
+				player.setChoice(determineUserInput(new String[]{Messages.getGeneralMessages()[11] + player.getName() + Messages.getGeneralMessages()[12],
+					Messages.getGeneralMessages()[7],
+					Messages.getGeneralMessages()[21]}));
+			
+				//Player wants to buy house or hotel
+				if (player.getChoice().equals(Messages.getGeneralMessages()[21])){
 
+					buyHouseHotel();
+					
+				}
+			}
+			else{
+				player.setChoice(determineUserInput(new String[]{Messages.getGeneralMessages()[11] + player.getName() + Messages.getGeneralMessages()[12],
+						Messages.getGeneralMessages()[7]}));
+			}
+		}
+		while(!player.getChoice().equals(Messages.getGeneralMessages()[7])); //player does not want to throw dice
+		
 		throwDice();
 		movePiece();
 		landOnField();
-		/*
-		 * 
-		 */
-		if(dice.isEqual() == true && player.getEqualCount() != 2){
 
+		//We check if dice values are equal
+		if(dice.isEqual() == true && player.getEqualCount() != 2){
 			player.setEqualCount(player.getEqualCount()+1);
 		}
 		else{
@@ -44,6 +71,53 @@ public class TurnController {
 		dice.throwDice();
 		player.setLastThrow(dice);
 		GUIController.setDice(dice);
+	}
+
+	protected void buyHouseHotel(){
+		
+		//we find streets of all owned fields
+		Ownable[] ownedFields = player.getAccount().getOwnedFields();
+			
+			//find number of streets
+			int streetCounter = 0;
+			for (Ownable i : ownedFields){
+				if (i instanceof Street && ((Street) i).getHousesOwned() < 5){
+					streetCounter++;
+				}
+			}
+			
+			//create new Street array
+			Street[] ownedStreets = new Street[streetCounter];
+			
+			streetCounter = 0;
+			for (int i = 0; i < ownedStreets.length; i++){
+				if (ownedFields[i] instanceof Street && ((Street) ownedFields[i]).getHousesOwned() < 5){
+					ownedStreets[streetCounter] = (Street) ownedFields[i];
+					streetCounter++;
+				}
+			}
+		
+		//we find all names of owned streets
+		String[] fieldNames = new String[ownedStreets.length];
+
+		for (int i = 0; i < fieldNames.length; i++){
+			fieldNames[i] = Messages.getFieldNames()[ownedStreets[i].getId()-1];
+		}
+		
+		//For which street do you want a house/hotel?
+		String userChoice = GUIController.getUserSelection(Messages.getGeneralMessages()[27], fieldNames);
+		
+		Street chosenField = null;
+		
+		for (Field i : board.getFields()){
+			if (Messages.getFieldNames()[i.getId()-1] == userChoice){
+				chosenField = (Street) i;
+			}	
+		}
+		
+		chosenField.setHousesOwned(chosenField.getHousesOwned()+1);
+		GUIController.setHouses(chosenField);
+		
 	}
 
 	protected void movePiece(){

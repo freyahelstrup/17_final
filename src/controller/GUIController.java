@@ -132,5 +132,13 @@ public class GUIController {
 		GUI.setBalance(player.getName(), player.getAccount().getBalance());
 	}
 	
+	public static String getUserSelection(String message, String ... options){
+		return GUI.getUserSelection(message, options);	
+	}
+	
+	public static void setHouses(Street field){
+		GUI.setHouses(field.getId(), field.getHousesOwned());
+	}
+	
 }
 
