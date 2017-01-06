@@ -8,6 +8,7 @@ public class TurnController {
 	protected Field currentField;
 	protected Player player;
 	protected Board board;
+	protected boolean movingToPrison;
 	
 	public TurnController(Player player, Board board){
 		this.player = player;
@@ -24,20 +25,29 @@ public class TurnController {
 		determineUserInput(new String[]{Messages.getGeneralMessages()[11] + player.getName() + Messages.getGeneralMessages()[12],
 				Messages.getGeneralMessages()[7]});
 
-		throwDice();
-		movePiece();
-		landOnField();
-		/*
-		 * 
-		 */
-		if(dice.isEqual() == true && player.getEqualCount() != 2){
+		// Player is not in prison
+		if (player.getPrisonCount() == 0) {
+			throwDice();
+			if(dice.isEqual() == true && player.getEqualCount() != 2){
 
-			player.setEqualCount(player.getEqualCount()+1);
+				player.setEqualCount(player.getEqualCount()+1);
+				movingToPrison = false;
+			}
+			else if(dice.isEqual() == true && player.getEqualCount() == 2) { // if player rolls two equals for the third time, the player goes straight to prison.
+				movingToPrison = true;
+				player.setEqualCount(0);			
+			}
+			else{
+				player.setEqualCount(0);
+				movingToPrison = false;
+			}
+			movePiece();
+			landOnField();
 		}
-		else{
-			player.setEqualCount(0);
+		// If player is in Prison
+		else if (player.getPrisonCount() > 0) {
+			prisonEscape();
 		}
-		
 	}
 	
 	protected void throwDice(){
@@ -48,33 +58,30 @@ public class TurnController {
 
 	protected void movePiece(){
 		int oldPosition = player.getPiece().getPosition();	// Save the old player position
-		boolean movingToPrison = false;	// Ensure that the player is not moving to prison when passing start
-		
+		int position;
+
 		//if (player.getPiece().getPosition() != 0){
-			/*
-			 * If there has already been placed a car, we remove it before placing a new one
-			 * We avoid bugs in the first turn by having the position set to 0
-			 * Every field is then a value of 1-21. 
-			 */
-			GUIController.removeAllCars(player);
-		//}
 		/*
-		 * Position is equal to the current position + the sum of the dice throw
-		 * We use modulus to calculate whether the player would end up outside the board
+		 * If there has already been placed a car, we remove it before placing a new one
+		 * We avoid bugs in the first turn by having the position set to 0
+		 * Every field is then a value of 1-21. 
 		 */
-		int position = (player.getPiece().getPosition() + dice.getSum()) % board.getFields().length;
-		//Since we use mod 40, we need to have a special case for field 40, or else we get position == 0
-		if (position == 0){
-			position = board.getFields().length;
-		}
+		GUIController.removeAllCars(player);
+		//}
 
-		//We set the car and piece position to the new values
-		player.getPiece().setPosition(position);
-		GUIController.setCar(player);
-		currentField = board.getFields()[position-1];
-
-		// Money when passing or landing on start
+		// Make sure the player did not throw 3 equals in a row.
 		if (movingToPrison == false) {
+			/*
+			 * Position is equal to the current position + the sum of the dice throw
+			 * We use modulus to calculate whether the player would end up outside the board
+			 */
+			position = (player.getPiece().getPosition() + dice.getSum()) % board.getFields().length;
+			//Since we use mod 40, we need to have a special case for field 40, or else we get position == 0
+			if (position == 0){
+				position = board.getFields().length;
+			}
+
+			// Money when passing or landing on start
 			if (oldPosition > position) {
 				if (position == 1) {
 					GUIController.showMessage(
@@ -88,15 +95,29 @@ public class TurnController {
 				player.getAccount().setBalance(player.getAccount().getBalance() + 200);
 				GUIController.setPlayerBalance(player);
 			}
+
+			//We set the car and piece position to the new values
+			player.getPiece().setPosition(position);
+			GUIController.setCar(player);
+			currentField = board.getFields()[position-1];
+		}
+		else{
+			moveToPrison();	// Moves the player and its piece straight to prison
 		}
 	}
 
 	protected void landOnField(){
 		// You landed on
-		if (player.getPiece().getPosition()-1 != 0) { // No need to tell that you landed on start, when the MovePiece says it.
+		if (player.getPiece().getPosition()-1 != 0) { // No need to tell that you landed on start, when the MovePiece says it
 			determineUserInput(new String[]{Messages.getGeneralMessages()[26] + Messages.getFieldNames()[(player.getPiece().getPosition())-1], 
 					Messages.getGeneralMessages()[13]});
 		} 
+		
+		if (player.getPiece().getPosition()-1 == 30) { // goToPrison field.
+			moveToPrison();
+			GUIController.showMessage(Messages.getGeneralMessages()[29]);
+		}
+		
 		int playerBalance = player.getAccount().getBalance();
 		
 	//Ownable
@@ -187,5 +208,46 @@ public class TurnController {
 				break;
 		}
 		return text;
+	}
+	
+	protected void moveToPrison() {
+		int position = 11; // prison
+		player.getPiece().setPosition(position);
+		GUIController.setCar(player);
+		currentField = board.getFields()[position-1];
+		player.setPrisonCount(3); // Three attempts to roll two equals to escape prison
+		movingToPrison = false;
+	}
+
+	protected void prisonEscape() {
+		// Player is in prison and has several attempts to get out.
+		if (player.getPrisonCount() > 1) {
+			throwDice();
+			if (dice.isEqual() == true) {
+				player.setEqualCount(1);
+				player.setPrisonCount(0);
+				movePiece();
+				landOnField();
+			}else {
+				player.setEqualCount(0);
+				player.setPrisonCount(player.getPrisonCount()-1);
+			}
+		}
+		// Player is using his last attempt to get out
+		else if(player.getPrisonCount() == 1) {
+			throwDice();
+			if (dice.isEqual() == true) {
+				player.setEqualCount(1);
+				player.setPrisonCount(0);
+			}
+			else {
+				player.setEqualCount(0);
+				player.setPrisonCount(0);
+				player.getAccount().setBalance(player.getAccount().getBalance()-50); // pay the fine for getting out of prison
+				GUIController.setPlayerBalance(player);
+			}
+		movePiece();
+		landOnField();
+		}
 	}
 }
