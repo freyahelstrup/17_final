@@ -47,6 +47,9 @@ public class TurnController {
 	}
 
 	protected void movePiece(){
+		int oldPosition = player.getPiece().getPosition();	// Save the old player position
+		boolean movingToPrison = false;	// Ensure that the player is not moving to prison when passing start
+		
 		//if (player.getPiece().getPosition() != 0){
 			/*
 			 * If there has already been placed a car, we remove it before placing a new one
@@ -69,13 +72,31 @@ public class TurnController {
 		player.getPiece().setPosition(position);
 		GUIController.setCar(player);
 		currentField = board.getFields()[position-1];
+
+		// Money when passing or landing on start
+		if (movingToPrison == false) {
+			if (oldPosition > position) {
+				if (position == 1) {
+					GUIController.showMessage(
+							Messages.getGeneralMessages()[26] + Messages.getFieldNames()[0] + 	// You landed on Start
+							Messages.getGeneralMessages()[28] + "200");							// and receives 200
+				}else {
+					GUIController.showMessage(Messages.getGeneralMessages()[27] + Messages.getFieldNames()[0] +	// You passed start
+							Messages.getGeneralMessages()[28] + "200");											// and receives 200
+
+				}
+				player.getAccount().setBalance(player.getAccount().getBalance() + 200);
+				GUIController.setPlayerBalance(player);
+			}
+		}
 	}
 
 	protected void landOnField(){
 		// You landed on
-		determineUserInput(new String[]{Messages.getGeneralMessages()[26] + Messages.getFieldNames()[(player.getPiece().getPosition())-1], 
+		if (player.getPiece().getPosition()-1 != 0) { // No need to tell that you landed on start, when the MovePiece says it.
+			determineUserInput(new String[]{Messages.getGeneralMessages()[26] + Messages.getFieldNames()[(player.getPiece().getPosition())-1], 
 					Messages.getGeneralMessages()[13]});
-		
+		} 
 		int playerBalance = player.getAccount().getBalance();
 		
 	//Ownable
