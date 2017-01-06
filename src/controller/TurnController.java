@@ -90,7 +90,7 @@ public class TurnController {
 			else if(owner == null && playerBalance < price){ 
 				determineUserInput(new String[]{player.getName() + ": " + Messages.getGeneralMessages()[25], 
 						Messages.getGeneralMessages()[13]}); 
-			} 
+			}
 		// You own the field
 			else if (owner == player){ 
 				determineUserInput(new String[]{player.getName() + ": " + Messages.getGeneralMessages()[20], 
