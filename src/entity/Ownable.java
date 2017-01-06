@@ -2,6 +2,8 @@ package entity;
 
 import java.awt.Color;
 
+import controller.GUIController;
+
 public abstract class Ownable extends Field{
 
 	protected int price;
@@ -16,17 +18,21 @@ public abstract class Ownable extends Field{
 		int balance = player.getAccount().getBalance();
 		
 		if (owner == null && balance >= price){
-			if (player.getChoice().equals(Messages.getGeneralMessages()[1]));
+			if (player.getChoice().equals(Messages.getGeneralMessages()[1]))
 			{//user chooses yes
 				owner = player;
-				player.getAccount().setOwnedField(this);
-				player.getAccount().setBalance(balance-price);
+				player.getAccount().setOwnedField(this); //Field is added to Player's owned fields
+				player.getAccount().setBalance(balance-price); //Balance of Player is changed
 			}
+		}
+		else if (owner == null){
+			GUIController.showMessage(Messages.getGeneralMessages()[25]); //Message sent, you do not have enough money to buy the field
 		}
 		else if (owner.getAccount().getBalance() > 0){//pay rent to owner if he is not bankrupt
 			int rent = 0;
 			if (this instanceof Brewery){
-				//when LaborCamp we should multiply dice sum with 100 and number of owned labor camps
+				//Brewery is a special case as we need the player's last dice throw to calculate rent
+				//Since we do not pass a player to getRent(), we need to do this multiplication on this level
 				rent = getRent()*player.getLastThrow().getSum();
 			}
 			else{

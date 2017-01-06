@@ -14,6 +14,10 @@ public abstract class Field {
 	public Color getColor(){
 		return color;
 	}
+
+	public int getId(){
+		return id;
+	}
 	
 	public abstract void landOnField(Player player);
 	

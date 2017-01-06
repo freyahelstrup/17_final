@@ -44,7 +44,8 @@ public class GameController {
 
 		while (winnerFound == false){
 			
-			new TurnController(currentPlayer,board);
+			TurnController turn = new TurnController(currentPlayer,board);
+			turn.playTurn();
 			
 			if (currentPlayer.getAccount().getBalance() < 0){
 				removePlayer(currentPlayer);
@@ -74,12 +75,24 @@ public class GameController {
 		}
 
 		GUIController.removeAllCars(player);
+		
+		//puts players owned fields back on sale
+		for (Ownable i : player.getAccount().getOwnedFields()){
+			if(i != null){
+				GUIController.removeFieldOwner(i.getId());
+				i.setOwner(null);
+			}
+		}
+		
 	}
 
 	protected Player defineNextPlayer(Player currentPlayer){
 		Player nextPlayer;
 
-		if (currentPlayer == players[players.length-1]){
+		if(currentPlayer.getEqualCount() > 0){
+			nextPlayer = currentPlayer;
+		}
+		else if (currentPlayer == players[players.length-1]){
 			nextPlayer = players[0];
 		}
 		else{

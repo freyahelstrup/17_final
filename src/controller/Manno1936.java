@@ -7,7 +7,7 @@ public class Manno1936 {
 
 	public static void main(String[] args) {
 		GameController game = new GameController(); //Initialize game
-		while (GUIController.getUserButtonPress(Messages.getGeneralMessages()[6] //do you want to create new game?
+		while (GUIController.getUserButtonPressed(Messages.getGeneralMessages()[6] //do you want to create new game?
 				, Messages.getGeneralMessages()[1] //yes
 						, Messages.getGeneralMessages()[2] //no
 				).equals(Messages.getGeneralMessages()[1]) //user chooses yes
