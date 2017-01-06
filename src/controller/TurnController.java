@@ -61,27 +61,59 @@ public class TurnController {
 	}
 
 	protected void landOnField(){
-		// Landed on
-		GUIController.showMessage((Messages.getGeneralMessages()[26] + Messages.getFieldNames()[(player.getPiece().getPosition())-1]));
+		// You landed on
+		determineUserInput(new String[]{Messages.getGeneralMessages()[26] + Messages.getFieldNames()[(player.getPiece().getPosition())-1], 
+					Messages.getGeneralMessages()[13]});
 		
-		// Do you wish to buy it?
+		int playerBalance = player.getAccount().getBalance();
+		
+	//Ownable
 		if (currentField instanceof Ownable) {
 			Player owner = ((Ownable) currentField).getOwner();
 			int price = ((Ownable) currentField).getPrice();
 			
-			if (owner == null && player.getAccount().getBalance() >= ((Ownable) currentField).getPrice()) {
+		// Do you wish to buy it?
+			if (owner == null && playerBalance >= price) {
 				String playerChoice = determineUserInput(new String[]{
-						Messages.getGeneralMessages()[0] + ((Ownable) currentField).getPrice(), //Do you want to buy field? 
+						Messages.getGeneralMessages()[0] + ((Ownable) currentField).getPrice() + "?", //Do you want to buy field? 
 						Messages.getGeneralMessages()[1], 	// Yes
 						Messages.getGeneralMessages()[2] 	// No
 								});
 						
 				player.setChoice(playerChoice);
+				
 				if (playerChoice.equals(Messages.getGeneralMessages()[1])) { // User chooses yes		
 					GUIController.setFieldOwner(player, player.getPiece().getPosition());
 				}
 			}
+	
+		// You don't have enough money to buy field
+			else if(owner == null && playerBalance < price){ 
+				determineUserInput(new String[]{player.getName() + ": " + Messages.getGeneralMessages()[25], 
+						Messages.getGeneralMessages()[13]}); 
+			} 
+		// You own the field
+			else if (owner == player){ 
+				determineUserInput(new String[]{player.getName() + ": " + Messages.getGeneralMessages()[20], 
+						Messages.getGeneralMessages()[13]}); 
+			} 
+		// You have to pay rent
+			else if (owner.getAccount().getBalance() > 0){//pay rent to owner if he is not bankrupt
+				int rent = 0;
+				if (currentField instanceof Fleet){
+					//when LaborCamp we should multiply dice sum with 100 and number of owned labor camps
+					rent = ((Ownable) currentField).getRent()*player.getLastThrow().getSum();
+				}
+				else{
+					rent = ((Ownable) currentField).getRent();
+				}
+				
+				determineUserInput(new String[]{player.getName() + ": " + Messages.getGeneralMessages()[9] + rent + Messages.getGeneralMessages()[16], 
+						Messages.getGeneralMessages()[13]});	
+			}
 		}
+		
+	//Tax
 		else if( currentField instanceof Tax) {
 			if ( ((Tax) currentField).getTaxRate() > 0) {
 				
@@ -93,8 +125,12 @@ public class TurnController {
 			player.setChoice(playerChoice);
 			}
 		}
+		
 		currentField.landOnField(player);
 		GUIController.setPlayerBalance(player);
+		if (currentField instanceof Ownable){
+			GUIController.setPlayerBalance(((Ownable) currentField).getOwner());
+		}
 	}
 	
 	
