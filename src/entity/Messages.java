@@ -120,6 +120,7 @@ public class Messages {
 			/*26*/ 	"De er landet på ",
 			/*27*/	"De har passeret ",
 			/*28*/	", og modtager ",
+			/*29*/	"De er blevet stoppet af politiet og sendes direkte i fængsel!"
 	};
 
 	public static String[] getChanceMessages(){
