@@ -1,6 +1,5 @@
 package controller;
 
-import desktop_resources.GUI;
 import entity.*;
 
 public class TurnController {
@@ -28,6 +27,8 @@ public class TurnController {
 		// Player is not in prison
 		if (player.getPrisonCount() == 0) {
 			throwDice();
+			
+			//Are dice equal?
 			if(dice.isEqual() == true && player.getEqualCount() != 2){
 
 				player.setEqualCount(player.getEqualCount()+1);
@@ -41,6 +42,7 @@ public class TurnController {
 				player.setEqualCount(0);
 				movingToPrison = false;
 			}
+			
 			movePiece();
 			landOnField();
 		}
@@ -59,15 +61,12 @@ public class TurnController {
 	protected void movePiece(){
 		int oldPosition = player.getPiece().getPosition();	// Save the old player position
 		int position;
+		int passStartMoney = 200;
 
-		//if (player.getPiece().getPosition() != 0){
 		/*
 		 * If there has already been placed a car, we remove it before placing a new one
-		 * We avoid bugs in the first turn by having the position set to 0
-		 * Every field is then a value of 1-21. 
 		 */
 		GUIController.removeAllCars(player);
-		//}
 
 		// Make sure the player did not throw 3 equals in a row.
 		if (movingToPrison == false) {
@@ -81,25 +80,24 @@ public class TurnController {
 				position = board.getFields().length;
 			}
 
+			//We set the car and piece position to the new values
+			player.getPiece().setPosition(position);
+			GUIController.setCar(player);
+			currentField = board.getFields()[position-1];
+			
 			// Money when passing or landing on start
 			if (oldPosition > position) {
 				if (position == 1) {
 					GUIController.showMessage(
 							Messages.getGeneralMessages()[26] + Messages.getFieldNames()[0] + 	// You landed on Start
-							Messages.getGeneralMessages()[28] + "200");							// and receives 200
+							Messages.getGeneralMessages()[28] + passStartMoney);							// and receive 200
 				}else {
 					GUIController.showMessage(Messages.getGeneralMessages()[27] + Messages.getFieldNames()[0] +	// You passed start
-							Messages.getGeneralMessages()[28] + "200");											// and receives 200
-
+							Messages.getGeneralMessages()[28] + passStartMoney);											// and receive 200
 				}
-				player.getAccount().setBalance(player.getAccount().getBalance() + 200);
+				player.getAccount().setBalance(player.getAccount().getBalance() + passStartMoney);
 				GUIController.setPlayerBalance(player);
 			}
-
-			//We set the car and piece position to the new values
-			player.getPiece().setPosition(position);
-			GUIController.setCar(player);
-			currentField = board.getFields()[position-1];
 		}
 		else{
 			moveToPrison();	// Moves the player and its piece straight to prison
@@ -114,6 +112,7 @@ public class TurnController {
 		} 
 		
 		if (player.getPiece().getPosition()-1 == 30) { // goToPrison field.
+			GUIController.removeAllCars(player);
 			moveToPrison();
 			GUIController.showMessage(Messages.getGeneralMessages()[29]);
 		}
@@ -246,8 +245,8 @@ public class TurnController {
 				player.getAccount().setBalance(player.getAccount().getBalance()-50); // pay the fine for getting out of prison
 				GUIController.setPlayerBalance(player);
 			}
-		movePiece();
-		landOnField();
+			movePiece();
+			landOnField();
 		}
 	}
 }
