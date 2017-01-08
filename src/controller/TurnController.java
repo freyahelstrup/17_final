@@ -8,7 +8,12 @@ public class TurnController {
 	protected Field currentField;
 	protected Player player;
 	protected Board board;
+
+	protected final int prisonEscapeFine = 50;
+	protected final int payday = 200;
+
 	protected boolean movingToPrison;
+	protected boolean movingPiece;
 
 	public TurnController(Player player, Board board){
 		this.player = player;
@@ -58,12 +63,13 @@ public class TurnController {
 		if(dice.isEqual() == true && player.getEqualCount() != 2){
 			player.setEqualCount(player.getEqualCount()+1);
 		}
-		
+
+		movingPiece = false; // A boolean to define, whether or not a piece shall move. I saw it necessary to simplify the code.
+
 		// Player is not in prison
 		if (player.getPrisonCount() == 0) {
 			throwDice();
 			if(dice.isEqual() == true && player.getEqualCount() != 2){
-
 				player.setEqualCount(player.getEqualCount()+1);
 				movingToPrison = false;
 			}
@@ -75,12 +81,16 @@ public class TurnController {
 				player.setEqualCount(0);
 				movingToPrison = false;
 			}
-			movePiece();
-			landOnField();
+			movingPiece = true;
 		}
+
 		// If player is in Prison
 		else if (player.getPrisonCount() > 0) {
 			prisonEscape();
+		}
+		if (movingPiece) {
+			movePiece();
+			landOnField();
 		}
 	}
 
@@ -166,14 +176,14 @@ public class TurnController {
 			if (oldPosition > position) {
 				if (position == 1) {
 					GUIController.showMessage(
-							Messages.getGeneralMessages()[26] + Messages.getFieldNames()[0] + 	// You landed on Start
-							Messages.getGeneralMessages()[28] + "200");							// and receives 200
+							Messages.getGeneralMessages()[26] + Messages.getFieldNames()[0] + 		// You landed on Start
+							Messages.getGeneralMessages()[28] + payday);							// and receives the payday amount (200)
 				}else {
-					GUIController.showMessage(Messages.getGeneralMessages()[27] + Messages.getFieldNames()[0] +	// You passed start
-							Messages.getGeneralMessages()[28] + "200");											// and receives 200
+					GUIController.showMessage(Messages.getGeneralMessages()[27] + Messages.getFieldNames()[0] +		// You passed start
+							Messages.getGeneralMessages()[28] + payday);											// and receives the payday amount (200)
 
 				}
-				player.getAccount().setBalance(player.getAccount().getBalance() + 200);
+				player.getAccount().setBalance(player.getAccount().getBalance() + payday);
 				GUIController.setPlayerBalance(player);
 			}
 
@@ -292,11 +302,13 @@ public class TurnController {
 	}
 
 	protected void moveToPrison() {
+		GUIController.removeAllCars(player);
 		int position = 11; // prison
 		player.getPiece().setPosition(position);
 		GUIController.setCar(player);
 		currentField = board.getFields()[position-1];
 		player.setPrisonCount(3); // Three attempts to roll two equals to escape prison
+		player.setEqualCount(0);
 		movingToPrison = false;
 	}
 
@@ -307,8 +319,7 @@ public class TurnController {
 			if (dice.isEqual() == true) {
 				player.setEqualCount(1);
 				player.setPrisonCount(0);
-				movePiece();
-				landOnField();
+				movingPiece = true;
 			}else {
 				player.setEqualCount(0);
 				player.setPrisonCount(player.getPrisonCount()-1);
@@ -324,11 +335,10 @@ public class TurnController {
 			else {
 				player.setEqualCount(0);
 				player.setPrisonCount(0);
-				player.getAccount().setBalance(player.getAccount().getBalance()-50); // pay the fine for getting out of prison
+				player.getAccount().setBalance(player.getAccount().getBalance()-prisonEscapeFine); // pay the fine for getting out of prison
 				GUIController.setPlayerBalance(player);
 			}
-		movePiece();
-		landOnField();
+			movingPiece = true;
 		}
 	}
 }
