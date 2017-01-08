@@ -13,8 +13,6 @@ public class TurnController {
 
 	protected boolean movingToPrison;
 	protected boolean movingPiece;
-
-
 	public TurnController(Player player, Board board){
 		this.player = player;
 		this.board = board;
@@ -51,6 +49,11 @@ public class TurnController {
 				movingToPrison = false;
 			}
 			movingPiece = true;
+<<<<<<< HEAD
+=======
+//			movePiece();
+//			landOnField();
+>>>>>>> master
 		}
 		// If player is in Prison
 		else if (player.getPrisonCount() > 0) {
