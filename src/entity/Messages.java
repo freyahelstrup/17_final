@@ -82,21 +82,21 @@ public class Messages {
 			,"Rådhuspladsen"			//Field 40
 	};
 	private static String[] boardMessages = {
-			"Pris:",				//0	
+			"Pris:",				//0
 			"Leje:", 				//1
 			"Modtag:",				//2
 			"Betal:",				//3
-			"eller",				//4 
+			"eller",				//4
 			"af alle ejendele",		//5
 	};
 
 	private static String[] generalMessages = {
-			/*0*/	"Denne ejendom er ikke ejet af nogen spiller. Vil De købe den for ", 	
-			/*1*/	"Ja",					
-			/*2*/	"Nej",					
-			/*3*/	"De har nu to muligheder",	
-			/*4*/	"Betal ",				
-			/*5*/	"% af alle ejendele ",	
+			/*0*/	"Denne ejendom er ikke ejet af nogen spiller. Vil De købe den for ",
+			/*1*/	"Ja",
+			/*2*/	"Nej",
+			/*3*/	"De har nu to muligheder",
+			/*4*/	"Betal ",
+			/*5*/	"% af alle ejendele ",
 			/*6*/	"Vil De starte et nyt spil?",
 			/*7*/	"Slå med terningerne",
 			/*8*/	"Hvor mange spillere skal deltage i spillet?",
@@ -118,7 +118,10 @@ public class Messages {
 			/*24*/	"Leje: 100*øjne*labor camps ejet",
 			/*25*/  "De har ikke nok penge til at købe dette felt.",
 			/*26*/ 	"De er landet på ",
-			/*27*/ 	"Hvilket felt vil De købe hus eller hotel til?",
+			/*27*/	"De har passeret ",
+			/*28*/	", og modtager ",
+			/*29*/	"De er blevet stoppet af politiet og sendes direkte i fængsel!",
+			/*30*/ 	"Hvilket felt vil De købe hus eller hotel til?",
 	};
 
 	public static String[] getChanceMessages(){
