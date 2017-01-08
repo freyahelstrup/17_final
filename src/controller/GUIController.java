@@ -50,6 +50,7 @@ public class GUIController {
 						.setRent(determineRent(board, i))
 						.build();	
 			}
+			
 		}
 
 		GUI.create(graphicfields);
@@ -138,6 +139,10 @@ public class GUIController {
 	
 	public static void setHouses(Street field){
 		GUI.setHouses(field.getId(), field.getHousesOwned());
+	}
+
+	public static void setHotel(Street field){
+		GUI.setHotel(field.getId(), true);
 	}
 	
 }

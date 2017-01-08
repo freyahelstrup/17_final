@@ -27,17 +27,21 @@ public class TurnController {
 		//a test class inheriting from this class as it requires the super class constructor to be used,
 		//which in turn prevents us from doing any of our own determined inputs
 
-		boolean ownedStreets = false;
-		for (Ownable i : player.getAccount().getOwnedFields()){
-			if (i instanceof Street){
-				ownedStreets = true;
-				break;
-			}
-		}
-
 		do{
-			//Player owns street
-			if (ownedStreets == true){
+
+			boolean buyHouseChoice = false;
+			for (Ownable i : player.getAccount().getOwnedFields()){
+				if (i instanceof Street 
+						&& ((Street) i).getHousesOwned() < 5 //we should only allow houses bought when field has less than 5 houses (hotel) already
+						&& player.getAccount().getBalance() >= ((Street) i).getHousePrice()){
+					buyHouseChoice = true;
+					break;	
+				}
+			}
+			
+
+			//Player can buy houses
+			if (buyHouseChoice == true){
 
 				//Do you want to throw dice or buy houses/hotels
 				player.setChoice(determineUserInput(new String[]{Messages.getGeneralMessages()[11] + player.getName() + Messages.getGeneralMessages()[12],
@@ -109,7 +113,9 @@ public class TurnController {
 			//find number of streets
 			int streetCounter = 0;
 			for (Ownable i : ownedFields){
-				if (i instanceof Street && ((Street) i).getHousesOwned() < 5){
+				if (i instanceof Street 
+						&& ((Street) i).getHousesOwned() < 5
+						&& player.getAccount().getBalance() >= ((Street) i).getHousePrice()){
 					streetCounter++;
 				}
 			}
@@ -118,8 +124,10 @@ public class TurnController {
 			Street[] ownedStreets = new Street[streetCounter];
 
 			streetCounter = 0;
-			for (int i = 0; i < ownedStreets.length; i++){
-				if (ownedFields[i] instanceof Street && ((Street) ownedFields[i]).getHousesOwned() < 5){
+			for (int i = 0; i < ownedFields.length; i++){
+				if (ownedFields[i] instanceof Street 
+						&& ((Street) ownedFields[i]).getHousesOwned() < 5
+						&& player.getAccount().getBalance() >= ((Street) ownedFields[i]).getHousePrice()){
 					ownedStreets[streetCounter] = (Street) ownedFields[i];
 					streetCounter++;
 				}
@@ -144,8 +152,17 @@ public class TurnController {
 		}
 
 		chosenField.setHousesOwned(chosenField.getHousesOwned()+1);
-		GUIController.setHouses(chosenField);
-
+		
+		if (chosenField.getHousesOwned() == 5){
+			GUIController.setHotel(chosenField);
+		}
+		else{
+			GUIController.setHouses(chosenField);
+		}
+		
+		player.getAccount().setBalance(player.getAccount().getBalance()-chosenField.getHousePrice());
+		GUIController.setPlayerBalance(player);
+		
 	}
 
 	protected void movePiece(){
