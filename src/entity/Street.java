@@ -6,13 +6,14 @@ public class Street extends Ownable {
 
 	private final int[] rents;
 	private int housesOwned;
+	private final int housePrice;
 	
-	
-	public Street(int id, Color color, int price, int[] rents) {
+	public Street(int id, Color color, int price, int[] rents, int housePrice) {
 		super(id, color, price);
 
 		this.rents = rents;
 		housesOwned = 0;
+		this.housePrice = housePrice;
 	}
 
 	@Override
@@ -24,6 +25,10 @@ public class Street extends Ownable {
 	
 	public int getHousesOwned(){
 		return housesOwned;
+	}
+
+	public int getHousePrice(){
+		return housePrice;
 	}
 	
 	public void setHousesOwned(int amount){
