@@ -67,7 +67,7 @@ public class TurnController {
 		// Player is not in prison
 		if (player.getPrisonCount() == 0) {
 			throwDice();
-
+ 
 			//Are dice equal?
 			if(dice.isEqual() == true && player.getEqualCount() != 2){
 				player.setEqualCount(player.getEqualCount()+1);
