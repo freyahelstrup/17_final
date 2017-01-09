@@ -315,11 +315,8 @@ public class TurnController {
 
 	protected void moveToPrison() {
 		GUIController.removeAllCars(player);
-		int position = 11; // prison
-		player.getPiece().setPosition(position);
+		currentField.landOnField(player);
 		GUIController.setCar(player);
-		currentField = board.getFields()[position-1];
-		player.setPrisonCount(3); // Three attempts to roll two equals to escape prison
 		player.setEqualCount(0);
 		movingToPrison = false;
 	}
@@ -327,14 +324,32 @@ public class TurnController {
 	protected void prisonEscape() {
 		// Player is in prison and has several attempts to get out.
 		if (player.getPrisonCount() > 1) {
-			throwDice();
-			if (dice.isEqual() == true) {
-				player.setEqualCount(1);
-				player.setPrisonCount(0);
-				movingPiece = true;
-			}else {
+			String playerChoice = determineUserInput(new String[]{
+					Messages.getGeneralMessages()[32],		//"De er i fængsel. For at komme ud kan de betale 50 kr. eller slå to ens"
+					Messages.getGeneralMessages()[31],		//"Betal 50 kr."
+					Messages.getGeneralMessages()[7]});		//"Slå med terningerne"
+			
+			player.setChoice(playerChoice);
+			
+			if(playerChoice.equals(Messages.getGeneralMessages()[7])){
+				throwDice();
+				
+				if (dice.isEqual() == true) {
+					player.setEqualCount(1);
+					player.setPrisonCount(0);
+					movingPiece = true;
+				}else {
+					player.setEqualCount(0);
+					player.setPrisonCount(player.getPrisonCount()-1);
+			}
+			
+			}
+			else if(playerChoice.equals(Messages.getGeneralMessages()[31])){
 				player.setEqualCount(0);
-				player.setPrisonCount(player.getPrisonCount()-1);
+				player.setPrisonCount(0);
+				player.getAccount().setBalance(player.getAccount().getBalance()-prisonEscapeFine); // pay the fine for getting out of prison
+				GUIController.setPlayerBalance(player);
+				movingPiece = true;
 			}
 		}
 		// Player is using his last attempt to get out
