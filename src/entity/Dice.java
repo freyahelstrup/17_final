@@ -19,4 +19,8 @@ public class Dice {
 	public void setRandom(){
 		value = ( (int) (Math.random()*sides)+1);
 	}
+	
+	public void setValue(int value){
+		this.value = value;
+	}
 }
