@@ -23,7 +23,7 @@ public abstract class Ownable extends Field{
 				player.getAccount().setBalance(balance-price); //Balance of Player is changed
 			}
 		}
-		else if (owner.getAccount().getBalance() > 0){//pay rent to owner if he is not bankrupt
+		else if (owner.getAccount().getBalance() >= 0){//pay rent to owner if he is not bankrupt
 			int rent = 0;
 			if (this instanceof Brewery){
 				//Brewery is a special case as we need the player's last dice throw to calculate rent
