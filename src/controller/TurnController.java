@@ -67,21 +67,6 @@ public class TurnController {
 		// Player is not in prison
 		if (player.getPrisonCount() == 0) {
 			throwDice();
- 
-			//Are dice equal?
-			if(dice.isEqual() == true && player.getEqualCount() != 2){
-				player.setEqualCount(player.getEqualCount()+1);
-				movingToPrison = false;
-			}
-			else if(dice.isEqual() == true && player.getEqualCount() == 2) { // if player rolls two equals for the third time, the player goes straight to prison.
-				GUIController.showMessage(Messages.getGeneralMessages()[29]);
-				movingToPrison = true;
-				player.setEqualCount(0);
-			}
-			else{
-				player.setEqualCount(0);
-				movingToPrison = false;
-			}
 			movingPiece = true;
 		}
 		// If player is in Prison
@@ -99,6 +84,26 @@ public class TurnController {
 		dice.throwDice();
 		player.setLastThrow(dice);
 		GUIController.setDice(dice);
+		
+		//Are dice equal?
+		if(dice.isEqual() == true){
+			//Player has thrown equals less than 3 times in a row
+			if (player.getEqualCount() != 2){
+				player.setEqualCount(player.getEqualCount()+1);
+				movingToPrison = false;
+			}
+			//Player has thrown equals 3 times in a row
+			else{
+				GUIController.showMessage(Messages.getGeneralMessages()[29]);
+				movingToPrison = true;
+				player.setEqualCount(0);
+			}
+		}
+		else{
+			player.setEqualCount(0);
+			movingToPrison = false;
+		}
+		
 	}
 
 	protected void buyHouseHotel(){
@@ -204,6 +209,7 @@ public class TurnController {
 			}
 		}
 		else{
+			currentField = board.getFields()[10];
 			moveToPrison();	// Moves the player and its piece straight to prison
 		}
 	}
@@ -315,7 +321,8 @@ public class TurnController {
 
 	protected void moveToPrison() {
 		GUIController.removeAllCars(player);
-		currentField.landOnField(player);
+		player.getPiece().setPosition(11);
+		player.setPrisonCount(3);
 		GUIController.setCar(player);
 		player.setEqualCount(0);
 		movingToPrison = false;
@@ -349,6 +356,7 @@ public class TurnController {
 				player.setPrisonCount(0);
 				player.getAccount().setBalance(player.getAccount().getBalance()-prisonEscapeFine); // pay the fine for getting out of prison
 				GUIController.setPlayerBalance(player);
+				throwDice();
 				movingPiece = true;
 			}
 		}
