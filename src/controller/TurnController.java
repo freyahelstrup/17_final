@@ -67,13 +67,14 @@ public class TurnController {
 		// Player is not in prison
 		if (player.getPrisonCount() == 0) {
 			throwDice();
-
+ 
 			//Are dice equal?
 			if(dice.isEqual() == true && player.getEqualCount() != 2){
 				player.setEqualCount(player.getEqualCount()+1);
 				movingToPrison = false;
 			}
 			else if(dice.isEqual() == true && player.getEqualCount() == 2) { // if player rolls two equals for the third time, the player goes straight to prison.
+				GUIController.showMessage(Messages.getGeneralMessages()[29]);
 				movingToPrison = true;
 				player.setEqualCount(0);
 			}
