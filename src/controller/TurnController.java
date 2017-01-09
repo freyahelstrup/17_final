@@ -13,6 +13,7 @@ public class TurnController {
 
 	protected boolean movingToPrison;
 	protected boolean movingPiece;
+
 	public TurnController(Player player, Board board){
 		this.player = player;
 		this.board = board;
@@ -25,8 +26,46 @@ public class TurnController {
 		//This used to be in the constructor, but problems arrived when trying to implement
 		//a test class inheriting from this class as it requires the super class constructor to be used,
 		//which in turn prevents us from doing any of our own determined inputs
-		determineUserInput(new String[]{Messages.getGeneralMessages()[11] + player.getName() + Messages.getGeneralMessages()[12],
-				Messages.getGeneralMessages()[7]});
+
+		do{
+
+			boolean buyHouseChoice = false;
+			for (Ownable i : player.getAccount().getOwnedFields()){
+				if (i instanceof Street 
+						&& ((Street) i).getHousesOwned() < 5 //we should only allow houses bought when field has less than 5 houses (hotel) already
+						&& player.getAccount().getBalance() >= ((Street) i).getHousePrice()){
+					buyHouseChoice = true;
+					break;	
+				}
+			}
+			
+
+			//Player can buy houses
+			if (buyHouseChoice == true){
+
+				//Do you want to throw dice or buy houses/hotels
+				player.setChoice(determineUserInput(new String[]{Messages.getGeneralMessages()[11] + player.getName() + Messages.getGeneralMessages()[12],
+					Messages.getGeneralMessages()[7],
+					Messages.getGeneralMessages()[21]}));
+
+				//Player wants to buy house or hotel
+				if (player.getChoice().equals(Messages.getGeneralMessages()[21])){
+
+					buyHouseHotel();
+
+				}
+			}
+			else{
+				player.setChoice(determineUserInput(new String[]{Messages.getGeneralMessages()[11] + player.getName() + Messages.getGeneralMessages()[12],
+						Messages.getGeneralMessages()[7]}));
+			}
+		}
+		while(!player.getChoice().equals(Messages.getGeneralMessages()[7])); //player does not want to throw dice
+
+		//We check if dice values are equal
+		if(dice.isEqual() == true && player.getEqualCount() != 2){
+			player.setEqualCount(player.getEqualCount()+1);
+		}
 
 		movingPiece = false; // A boolean to define, whether or not a piece shall move. I saw it necessary to simplify the code.
 
@@ -36,7 +75,6 @@ public class TurnController {
 
 			//Are dice equal?
 			if(dice.isEqual() == true && player.getEqualCount() != 2){
-
 				player.setEqualCount(player.getEqualCount()+1);
 				movingToPrison = false;
 			}
@@ -50,6 +88,7 @@ public class TurnController {
 			}
 			movingPiece = true;
 		}
+
 		// If player is in Prison
 		else if (player.getPrisonCount() > 0) {
 			prisonEscape();
@@ -64,6 +103,66 @@ public class TurnController {
 		dice.throwDice();
 		player.setLastThrow(dice);
 		GUIController.setDice(dice);
+	}
+
+	protected void buyHouseHotel(){
+
+		//we find streets of all owned fields
+		Ownable[] ownedFields = player.getAccount().getOwnedFields();
+
+			//find number of streets
+			int streetCounter = 0;
+			for (Ownable i : ownedFields){
+				if (i instanceof Street 
+						&& ((Street) i).getHousesOwned() < 5
+						&& player.getAccount().getBalance() >= ((Street) i).getHousePrice()){
+					streetCounter++;
+				}
+			}
+
+			//create new Street array
+			Street[] ownedStreets = new Street[streetCounter];
+
+			streetCounter = 0;
+			for (int i = 0; i < ownedFields.length; i++){
+				if (ownedFields[i] instanceof Street 
+						&& ((Street) ownedFields[i]).getHousesOwned() < 5
+						&& player.getAccount().getBalance() >= ((Street) ownedFields[i]).getHousePrice()){
+					ownedStreets[streetCounter] = (Street) ownedFields[i];
+					streetCounter++;
+				}
+			}
+
+		//we find all names of owned streets
+		String[] fieldNames = new String[ownedStreets.length];
+
+		for (int i = 0; i < fieldNames.length; i++){
+			fieldNames[i] = Messages.getFieldNames()[ownedStreets[i].getId()-1];
+		}
+
+		//For which street do you want a house/hotel?
+		String userChoice = GUIController.getUserSelection(Messages.getGeneralMessages()[30], fieldNames);
+
+		Street chosenField = null;
+
+		for (Field i : board.getFields()){
+			if (Messages.getFieldNames()[i.getId()-1] == userChoice){
+				chosenField = (Street) i;
+			}
+		}
+
+		chosenField.setHousesOwned(chosenField.getHousesOwned()+1);
+		
+		if (chosenField.getHousesOwned() == 5){
+			GUIController.setHotel(chosenField);
+		}
+		else{
+			GUIController.setHouses(chosenField);
+		}
+		
+		player.getAccount().setBalance(player.getAccount().getBalance()-chosenField.getHousePrice());
+		GUIController.setPlayerBalance(player);
+		
 	}
 
 	protected void movePiece(){
