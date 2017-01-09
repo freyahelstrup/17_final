@@ -32,7 +32,14 @@ public class GUIController {
 						.setTitle(determineSubText(board, i))
 						.setDescription(Messages.getFieldNames()[i])
 						.setSubText(determineSubText(board, i))
-						.build();	
+						.build();
+			}
+			else if (fields[i] instanceof GoToPrison || i == 10){
+					graphicfields[i] = new desktop_fields.Jail.Builder()
+							.setTitle(determineSubText(board, i))
+							.setDescription(Messages.getFieldNames()[i])
+							.setSubText(determineSubText(board, i))
+							.build();	
 			}
 			else if (i == 0){
 				graphicfields[i] = new desktop_fields.Start.Builder()

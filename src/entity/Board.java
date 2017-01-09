@@ -39,7 +39,7 @@ public class Board {
 		fields[27] = new Street(28, Color.magenta, 260, new int[]{22,110,330,800,975,1150});	//Kongens Nytorv
 		fields[28] = new Brewery(29, Color.white, 150);	//Carlsberg
 		fields[29] = new Street(30, Color.magenta, 280, new int[]{22,120,360,850,1025,1200});	//Østergade
-/*MISSING*/		fields[30] = new Chance(31, Color.white);	//Politi (GoToPrison)
+/*MISSING*/		fields[30] = new GoToPrison(31, Color.white);	//Politi (GoToPrison)
 		fields[31] = new Street(32, Color.yellow, 300, new int[]{26,130,390,900,1100,1275});	//Amagertorv
 		fields[32] = new Street(33, Color.yellow, 300, new int[]{26,130,390,900,1100,1275});	//Vimmelskaftet
 /**/		fields[33] = new Chance(34, Color.white);	//Chance
