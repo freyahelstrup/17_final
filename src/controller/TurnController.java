@@ -62,12 +62,7 @@ public class TurnController {
 		}
 		while(!player.getChoice().equals(Messages.getGeneralMessages()[7])); //player does not want to throw dice
 
-		//We check if dice values are equal
-		if(dice.isEqual() == true && player.getEqualCount() != 2){
-			player.setEqualCount(player.getEqualCount()+1);
-		}
-
-		movingPiece = false; // A boolean to define, whether or not a piece shall move. I saw it necessary to simplify the code.
+		movingPiece = false; // A boolean to define whether or not a piece shall move. I saw it necessary to simplify the code.
 
 		// Player is not in prison
 		if (player.getPrisonCount() == 0) {
@@ -88,11 +83,11 @@ public class TurnController {
 			}
 			movingPiece = true;
 		}
-
 		// If player is in Prison
 		else if (player.getPrisonCount() > 0) {
 			prisonEscape();
 		}
+		
 		if (movingPiece) {
 			movePiece();
 			landOnField();
@@ -257,7 +252,7 @@ public class TurnController {
 						Messages.getGeneralMessages()[13]});
 			}
 		// You have to pay rent
-			else if (owner.getAccount().getBalance() > 0){//pay rent to owner if he is not bankrupt
+			else if (owner.getAccount().getBalance() >= 0){//pay rent to owner if he is not bankrupt
 				int rent = 0;
 				if (currentField instanceof Brewery){
 					//when brewery we should multiply dice sum with 4 or 10, depending on the amount of owned brewery from the same owner.
