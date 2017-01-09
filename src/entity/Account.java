@@ -8,8 +8,8 @@ public class Account {
 	public Account(int startBalance){
 		jailFreeCounter = 0;
 		this.balance = startBalance;
-		
-		ownedFields = new Ownable[28];
+
+		ownedFields = new Ownable[0];
 	}
 
 	public int calculateAssets(){
@@ -46,13 +46,18 @@ public class Account {
 	}
 	
 	public void setOwnedField(Ownable field){
-		//set next empty position in Ownable array to the given field
-		for (int i = 0; i<ownedFields.length;i++){
-			if (ownedFields[i] == null){
-				ownedFields[i] = field;
-				break; //exit the loop
-			}
+		//add new Ownable to Ownable array
+
+		Ownable[] temp = ownedFields;		
+		ownedFields = new Ownable[temp.length+1];
+		
+		//insert previous owned fields into new array
+		for (int i = 0; i<temp.length;i++){
+			ownedFields[i] = temp[i];
 		}
+
+		//insert new owned field into new array
+		ownedFields[temp.length] = field;
 
 	}
 	
