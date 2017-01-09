@@ -122,6 +122,7 @@ public class Messages {
 			/*28*/	", og modtager ",
 			/*29*/	"De er blevet stoppet af politiet og sendes direkte i fængsel!",
 			/*30*/ 	"Hvilket felt vil De købe hus eller hotel til?",
+			/*31*/	"De har kørt for hurtigt og sendes derfor i fængsel."
 	};
 
 	public static String[] getChanceMessages(){
