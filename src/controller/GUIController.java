@@ -41,6 +41,13 @@ public class GUIController {
 							.setSubText(determineSubText(board, i))
 							.build();	
 			}
+			else if (i == 20){
+				graphicfields[i] = new desktop_fields.Refuge.Builder()
+						.setTitle(Messages.getFieldNames()[i])
+						.setDescription(Messages.getFieldNames()[i])
+						.setSubText(determineSubText(board, i))
+						.build();
+			}	
 			else if (i == 0){
 				graphicfields[i] = new desktop_fields.Start.Builder()
 						.setTitle(Messages.getFieldNames()[i])
@@ -57,6 +64,7 @@ public class GUIController {
 						.setRent(determineRent(board, i))
 						.build();	
 			}
+			
 			
 		}
 

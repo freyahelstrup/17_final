@@ -324,9 +324,14 @@ public class TurnController {
 	protected void prisonEscape() {
 		// Player is in prison and has several attempts to get out.
 		if (player.getPrisonCount() > 1) {
-			String playerChoice = determineUserInput(new String[]{"Vælg abe eller hat","abe","hat"});
+			String playerChoice = determineUserInput(new String[]{
+					Messages.getGeneralMessages()[32],		//"De er i fængsel. For at komme ud kan de betale 50 kr. eller slå to ens"
+					Messages.getGeneralMessages()[31],		//"Betal 50 kr."
+					Messages.getGeneralMessages()[7]});		//"Slå med terningerne"
+			
 			player.setChoice(playerChoice);
-			if(playerChoice == "abe"){
+			
+			if(playerChoice.equals(Messages.getGeneralMessages()[7])){
 				throwDice();
 				
 				if (dice.isEqual() == true) {
@@ -339,11 +344,12 @@ public class TurnController {
 			}
 			
 			}
-			else if(playerChoice == "hat"){
+			else if(playerChoice.equals(Messages.getGeneralMessages()[31])){
 				player.setEqualCount(0);
 				player.setPrisonCount(0);
 				player.getAccount().setBalance(player.getAccount().getBalance()-prisonEscapeFine); // pay the fine for getting out of prison
 				GUIController.setPlayerBalance(player);
+				movingPiece = true;
 			}
 		}
 		// Player is using his last attempt to get out

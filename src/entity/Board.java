@@ -9,7 +9,7 @@ public class Board {
 
 		fields = new Field[40];
 		
-/**/		fields[0] = new Street(1, Color.white, 60, new int[]{0,0,0,0,0,0},0);	//Start
+/**/		fields[0] = new Refuge(1, Color.white);	//Start
 		fields[1] = new Street(2, Color.cyan, 60, new int[]{2,10,30,90,160,250},50);		//Rødovrevej
 /**/		fields[2] = new Chance(3, Color.white);	//Chance
 		fields[3] = new Street(4, Color.cyan, 60, new int[]{4,20,60,180,320,540},50);		//Hvidovre
@@ -19,7 +19,7 @@ public class Board {
 /**/		fields[7] = new Chance(8, Color.white);	//Chance
 		fields[8] = new Street(9, Color.pink, 100, new int[]{6,30,90,270,400,550},50);		//Valby Langgade
 		fields[9] = new Street(10, Color.pink, 120, new int[]{8,40,100,300,450,600},50);		//Allégade
-/*MISSING*/		fields[10] = new Chance(11, Color.white);	//Fængsel
+/*MISSING*/		fields[10] = new Refuge(11, Color.white);	//Fængsel
 		fields[11] = new Street(12, Color.green, 140, new int[]{10,50,150,450,625,750},100);	//Frederiksberg Allé
 		fields[12] = new Brewery(13, Color.white, 150);	//Tuborg
 		fields[13] = new Street(14, Color.green, 140, new int[]{10,50,150,450,625,750},100);	//Bülowsvej
@@ -29,7 +29,7 @@ public class Board {
 /**/		fields[17] = new Chance(18, Color.white);	//Chance
 		fields[18] = new Street(19, Color.gray, 180, new int[]{14,70,200,550,750,950},100);	//Hellerupvej
 		fields[19] = new Street(20, Color.gray, 200, new int[]{16,80,220,600,800,1000},100);	//Strandvej
-		fields[20] = new Chance(21, Color.white);	//Helle
+		fields[20] = new Refuge(21, Color.white);	//Helle
 		fields[21] = new Street(22, Color.red, 220, new int[]{18,90,250,700,875,1050},150);		//Trianglen
 /**/		fields[22] = new Chance(23, Color.white);	//Chance
 		fields[23] = new Street(24, Color.red, 220, new int[]{18,90,250,700,875,1050},150);		//Østerbrogade
