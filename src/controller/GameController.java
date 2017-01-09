@@ -10,7 +10,7 @@ public class GameController {
 
 	public GameController(){
 		board = new Board();
-		GUIController.initializeBoard(board);
+		GUIController.initializeBoard(board);		
 	}
 
 	public void resetGame(int playerAmount, int balance){
@@ -32,6 +32,22 @@ public class GameController {
 			players[i] = new Player(i+1,Messages.getGeneralMessages()[10]+(i+1),new Piece(color), new Account(balance));
 
 			GUIController.addPlayer(players[i]);
+			
+			for (Field j : board.getFields()){
+				if (j instanceof Ownable){
+					//remove owner of field
+					((Ownable) j).setOwner(null);
+					GUIController.removeFieldOwner(j.getId());
+					
+					//remove houses and hotels
+					if (j instanceof Street){
+						((Street) j).setHousesOwned(0);
+						GUIController.setHouses((Street) j);
+					}
+				}
+				
+			}
+			
 		}
 	}
 
