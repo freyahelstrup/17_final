@@ -81,6 +81,10 @@ public class GameController {
 			if(i != null){
 				GUIController.removeFieldOwner(i.getId());
 				i.setOwner(null);
+				if (i instanceof Street){
+					((Street) i).setHousesOwned(0);
+					GUIController.setHouses((Street) i);
+				}
 			}
 		}
 		
