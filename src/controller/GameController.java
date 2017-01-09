@@ -5,8 +5,8 @@ import java.awt.Color;
 import entity.*;
 
 public class GameController {
-	private Board board; //An instance of the Board class
-	private Player[] players; //An array of Players
+	protected Board board; //An instance of the Board class
+	protected Player[] players; //An array of Players
 
 	public GameController(){
 		board = new Board();

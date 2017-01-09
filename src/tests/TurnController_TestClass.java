@@ -6,9 +6,8 @@ import entity.DiceCup;
 import entity.Messages;
 import entity.Player;
 
-class TurnController_TestClass extends TurnController {
-	private int resultCounter;
-	private int[] data;
+public class TurnController_TestClass extends TurnController {
+	private int result;
 	private DiceCup dice;
 	
 	//This class is used to determine specific dice rolls and player inputs to be used in white-box and black-box testing
@@ -25,21 +24,14 @@ class TurnController_TestClass extends TurnController {
 	
 	@Override
 	protected void throwDice(){
-		if(resultCounter<data.length){
-			dice.getDice()[0].setValue(data[resultCounter]); //The first dice keeps stepping through the data array
-			dice.getDice()[1].setValue(0); //There might be issues with the brewery class if we don't have a second dice...
-			resultCounter++;
-		}
-		else{
-			//We set it random if we've reached the end of our result array so the program won't crash 
-			//if the teachers want us to keep playing after the demo
-			dice.throwDice();
-		}
+		
+		if(result >= 0){dice.getDice()[0].setValue(result);} //Result if result is available
+		else{dice.throwDice();} //Random values if no result is available
+		
 	}
 	
-	public void setTestData(int[] data){
-		resultCounter = 0; //resultCounter is the place we are in the array. When we get a new dataset, we reset it.
-		this.data = data;
+	public void setTestData(int value){
+		this.result = value;
 	}
 
 }
