@@ -14,7 +14,7 @@ public class DemoGameController extends GameController {
 		{3,1},	//Indkomstskat
 		
 		{5,1},	//Tuborg
-		{6,1},	//Tuborg (leje)
+		{6,1},	//Tuborg (leje) 4*7
 		{1,1}, 	//Roskildevej (leje)
 		{3,1},	//På besøg i fængsel (ryk dobbelt efter terningekast lige med hinanden)
 		
@@ -24,7 +24,13 @@ public class DemoGameController extends GameController {
 		
 		{6,2}, 	//ØK
 		{6,4},	//ØK (leje)
-		{4,1}	//Parkering
+		{4,1},	//Parkering
+		
+		{2,1},	//Carlsberg
+		{2,1},	//Carlsberg (leje) 3*10
+		{1,1},	//Prøv lykken
+		{1,1},	//Grønningen
+		{1,1}, 	//Fængsel
 		};
 	int testDataCounter = 0;
 	
