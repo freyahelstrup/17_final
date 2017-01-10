@@ -33,6 +33,7 @@ public class TurnController_TestClass extends TurnController {
 		} //Result if result is available
 		else{dice.throwDice();} //Random values if no result is available
 		setDice(dice);
+		player.setLastThrow(dice);
 		GUIController.setDice(dice);
 	}
 	
