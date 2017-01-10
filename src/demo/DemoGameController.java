@@ -8,7 +8,11 @@ import entity.Board;
 import entity.Player;
 
 public class DemoGameController extends GameController {
-	int[][] testData = new int[][]{{1, 2}, {3, 1}, {2, 3}};
+	int[][] testData = new int[][]{
+		{2, 1}, 
+		{3, 1}, 
+		{4, 1}
+		};
 	int testDataCounter = 0;
 	
 	@Override
