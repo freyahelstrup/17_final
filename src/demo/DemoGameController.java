@@ -8,7 +8,7 @@ import entity.Board;
 import entity.Player;
 
 public class DemoGameController extends GameController {
-	int[] testData = new int[]{1, 2, 3, 1, 2, 3};
+	int[][] testData = new int[][]{{1, 2}, {3, 1}, {2, 3}};
 	int testDataCounter = 0;
 	
 	@Override
@@ -22,9 +22,11 @@ public class DemoGameController extends GameController {
 		while (winnerFound == false){
 			
 			TurnController_TestClass turn = new TurnController_TestClass(currentPlayer,board);
-			turn.setTestData(testData[testDataCounter]); //Set turn result equal to current data point
+			if(testDataCounter<testData.length){
+				turn.setTestData(testData[testDataCounter]);
+				testDataCounter++;
+			}
 			turn.playTurn();
-			testDataCounter++; //Increment dataset counter
 			
 			if (currentPlayer.getAccount().getBalance() < 0){
 				removePlayer(currentPlayer);

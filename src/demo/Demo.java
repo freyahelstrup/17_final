@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import controller.GUIController;
+import controller.GameController;
 import desktop_resources.GUI;
 import entity.Messages;
 
