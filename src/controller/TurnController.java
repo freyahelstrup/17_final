@@ -368,4 +368,8 @@ public class TurnController {
 			movingPiece = true;
 		}
 	}
+	
+	protected void setDice(DiceCup dice){
+		this.dice = dice;
+	}
 }
