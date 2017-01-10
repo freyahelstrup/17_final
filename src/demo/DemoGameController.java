@@ -9,9 +9,22 @@ import entity.Player;
 
 public class DemoGameController extends GameController {
 	int[][] testData = new int[][]{
-		{2, 1}, 
-		{3, 1}, 
-		{4, 1}
+		{5,1}, 	//Roskildevej
+		{4,1}, 	//Øresund
+		{3,1},	//Indkomstskat
+		
+		{5,1},	//Tuborg
+		{6,1},	//Tuborg (leje)
+		{1,1}, 	//Roskildevej (leje)
+		{3,1},	//På besøg i fængsel (ryk dobbelt efter terningekast lige med hinanden)
+		
+		{4,1},	//Prøv lykken
+		{2,1}, 	//DFDS
+		{4,1}, 	//DFDS (leje)
+		
+		{6,2}, 	//ØK
+		{6,4},	//ØK (leje)
+		{4,1}	//Parkering
 		};
 	int testDataCounter = 0;
 	
