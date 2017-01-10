@@ -16,7 +16,7 @@ public class TurnController_TestClass extends TurnController {
 		super(player, board); //The super class constructor does all the work of instantiating the class
 		//The playTurn() method of the super class can be used to run the turn
 		dice = new DiceCup(6,2);
-		player.setChoice(Messages.getGeneralMessages()[7]);
+		//player.setChoice(Messages.getGeneralMessages()[7]);
 	}
 	/*
 	@Override
@@ -35,7 +35,27 @@ public class TurnController_TestClass extends TurnController {
 		setDice(dice);
 		player.setLastThrow(dice);
 		GUIController.setDice(dice);
+		
+		//Are dice equal?
+		if(dice.isEqual() == true){
+			//Player has thrown equals less than 3 times in a row
+			if (player.getEqualCount() != 2){
+				player.setEqualCount(player.getEqualCount()+1);
+				movingToPrison = false;
+			}
+			//Player has thrown equals 3 times in a row
+			else{
+				GUIController.showMessage(Messages.getGeneralMessages()[29]);
+				movingToPrison = true;
+				player.setEqualCount(0);
+			}
+		}
+		else{
+			player.setEqualCount(0);
+			movingToPrison = false;
+		}
 	}
+	
 	
 	public void setTestData(int[] value){
 		this.result = value;

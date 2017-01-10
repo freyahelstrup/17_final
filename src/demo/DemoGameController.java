@@ -31,6 +31,21 @@ public class DemoGameController extends GameController {
 		{1,1},	//Prøv lykken
 		{1,1},	//Grønningen
 		{1,1}, 	//Fængsel
+		
+		{1,1}, 	//Gå i fængsel
+		{6,4}, 	//Skat uden taxrate
+		{1,2}, 	//Slå ikke to ens
+		
+		{1,1}, 	//Spiller 1 slår ud
+		{1,2},	//DFDS
+		{1,1},	//Start
+		{2,1}, 	//Hvidovrevej
+		{1,2}, 	//Spiller 3 slår ikke ud
+		
+		{1,3}, 	//Ikke vigtigt slag
+		{1,3}, 	//Ikke vigtigt slag
+		{1,3}	//Spiller 3 slår ikke ud og er tvunget til at betale 50 kr.
+		
 		};
 	int testDataCounter = 0;
 	
