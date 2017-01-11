@@ -1,14 +1,14 @@
 package tests;
 
+import controller.GUIController;
 import controller.TurnController;
 import entity.Board;
 import entity.DiceCup;
 import entity.Messages;
 import entity.Player;
 
-class TurnController_TestClass extends TurnController {
-	private int resultCounter;
-	private int[] data;
+public class TurnController_TestClass extends TurnController {
+	private int[] result;
 	private DiceCup dice;
 	
 	//This class is used to determine specific dice rolls and player inputs to be used in white-box and black-box testing
@@ -16,30 +16,49 @@ class TurnController_TestClass extends TurnController {
 		super(player, board); //The super class constructor does all the work of instantiating the class
 		//The playTurn() method of the super class can be used to run the turn
 		dice = new DiceCup(6,2);
+		//player.setChoice(Messages.getGeneralMessages()[7]);
 	}
-	
+	/*
 	@Override
 	protected String determineUserInput(String[] input){
 		return input[0]; //We give a 1 length array as the input, this makes us able to go around the GUI
 	}
-	
+	*/
 	@Override
 	protected void throwDice(){
-		if(resultCounter<data.length){
-			dice.getDice()[0].setValue(data[resultCounter]); //The first dice keeps stepping through the data array
-			dice.getDice()[1].setValue(0); //There might be issues with the brewery class if we don't have a second dice...
-			resultCounter++;
+		
+		if(result != null){
+			dice.getDice()[0].setValue(result[0]);
+			dice.getDice()[1].setValue(result[1]);
+		} //Result if result is available
+		else{dice.throwDice();} //Random values if no result is available
+		setDice(dice);
+		player.setLastThrow(dice);
+		GUIController.setDice(dice);
+		
+		//Are dice equal?
+		if(dice.isEqual() == true){
+			//Player has thrown equals less than 3 times in a row
+			if (player.getEqualCount() != 2){
+				player.setEqualCount(player.getEqualCount()+1);
+				movingToPrison = false;
+			}
+			//Player has thrown equals 3 times in a row
+			else{
+				GUIController.showMessage(Messages.getGeneralMessages()[29]);
+				movingToPrison = true;
+				player.setEqualCount(0);
+			}
 		}
 		else{
-			//We set it random if we've reached the end of our result array so the program won't crash 
-			//if the teachers want us to keep playing after the demo
-			dice.throwDice();
+			player.setEqualCount(0);
+			movingToPrison = false;
 		}
 	}
 	
-	public void setTestData(int[] data){
-		resultCounter = 0; //resultCounter is the place we are in the array. When we get a new dataset, we reset it.
-		this.data = data;
+	
+	public void setTestData(int[] value){
+		this.result = value;
 	}
 
 }
