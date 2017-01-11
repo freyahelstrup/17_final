@@ -145,24 +145,29 @@ public class TurnController {
 		String userChoice = GUIController.getUserSelection(Messages.getGeneralMessages()[30], fieldNames);
 
 		Street chosenField = null;
-
 		for (Field i : board.getFields()){
-			if (Messages.getFieldNames()[i.getId()-1] == userChoice){
+			if (Messages.getFieldNames()[i.getId()-1].equals(userChoice)){
 				chosenField = (Street) i;
 			}
 		}
 
-		chosenField.setHousesOwned(chosenField.getHousesOwned()+1);
-		
-		if (chosenField.getHousesOwned() == 5){
-			GUIController.setHotel(chosenField);
+		//Are you sure?
+		String areYouSure = GUIController.getUserButtonPressed(Messages.getGeneralMessages()[23] + chosenField.getHousePrice() + Messages.getGeneralMessages()[24]
+				, Messages.getGeneralMessages()[1], Messages.getGeneralMessages()[2]);
+
+		if (areYouSure.equals(Messages.getGeneralMessages()[1])){
+			chosenField.setHousesOwned(chosenField.getHousesOwned()+1);
+			
+			if (chosenField.getHousesOwned() == 5){
+				GUIController.setHotel(chosenField);
+			}
+			else{
+				GUIController.setHouses(chosenField);
+			}
+			
+			player.getAccount().setBalance(player.getAccount().getBalance()-chosenField.getHousePrice());
+			GUIController.setPlayerBalance(player);
 		}
-		else{
-			GUIController.setHouses(chosenField);
-		}
-		
-		player.getAccount().setBalance(player.getAccount().getBalance()-chosenField.getHousePrice());
-		GUIController.setPlayerBalance(player);
 		
 	}
 
@@ -375,5 +380,9 @@ public class TurnController {
 			}
 			movingPiece = true;
 		}
+	}
+	
+	protected void setDice(DiceCup dice){
+		this.dice = dice;
 	}
 }
