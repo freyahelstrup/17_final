@@ -1,4 +1,4 @@
-package entity;
+﻿package entity;
 
 import java.awt.Color;
 
@@ -9,7 +9,7 @@ public class Board {
 
 		fields = new Field[40];
 		
-/**/		fields[0] = new Street(1, Color.white, 60, new int[]{0,0,0,0,0,0},0);	//Start
+/**/		fields[0] = new Refuge(1, Color.white);	//Start
 		fields[1] = new Street(2, Color.cyan, 60, new int[]{2,10,30,90,160,250},50);		//Rødovrevej
 /**/		fields[2] = new Chance(3, Color.white);	//Chance
 		fields[3] = new Street(4, Color.cyan, 60, new int[]{4,20,60,180,320,540},50);		//Hvidovre
@@ -19,7 +19,7 @@ public class Board {
 /**/		fields[7] = new Chance(8, Color.white);	//Chance
 		fields[8] = new Street(9, Color.pink, 100, new int[]{6,30,90,270,400,550},50);		//Valby Langgade
 		fields[9] = new Street(10, Color.pink, 120, new int[]{8,40,100,300,450,600},50);		//Allégade
-/*MISSING*/		fields[10] = new Chance(11, Color.white);	//Fængsel
+/*MISSING*/		fields[10] = new Refuge(11, Color.white);	//Fængsel
 		fields[11] = new Street(12, Color.green, 140, new int[]{10,50,150,450,625,750},100);	//Frederiksberg Allé
 		fields[12] = new Brewery(13, Color.white, 150);	//Tuborg
 		fields[13] = new Street(14, Color.green, 140, new int[]{10,50,150,450,625,750},100);	//Bülowsvej
@@ -29,7 +29,7 @@ public class Board {
 /**/		fields[17] = new Chance(18, Color.white);	//Chance
 		fields[18] = new Street(19, Color.gray, 180, new int[]{14,70,200,550,750,950},100);	//Hellerupvej
 		fields[19] = new Street(20, Color.gray, 200, new int[]{16,80,220,600,800,1000},100);	//Strandvej
-/*MISSING*/		fields[20] = new Chance(21, Color.white);	//Helle
+		fields[20] = new Refuge(21, Color.white);	//Helle
 		fields[21] = new Street(22, Color.red, 220, new int[]{18,90,250,700,875,1050},150);		//Trianglen
 /**/		fields[22] = new Chance(23, Color.white);	//Chance
 		fields[23] = new Street(24, Color.red, 220, new int[]{18,90,250,700,875,1050},150);		//Østerbrogade
@@ -39,7 +39,7 @@ public class Board {
 		fields[27] = new Street(28, Color.magenta, 260, new int[]{22,110,330,800,975,1150},150);	//Kongens Nytorv
 		fields[28] = new Brewery(29, Color.white, 150);	//Carlsberg
 		fields[29] = new Street(30, Color.magenta, 280, new int[]{22,120,360,850,1025,1200},150);	//Østergade
-/*MISSING*/		fields[30] = new Chance(31, Color.white);	//Politi (GoToPrison)
+		fields[30] = new GoToPrison(31, Color.white);	//Politi (GoToPrison)
 		fields[31] = new Street(32, Color.yellow, 300, new int[]{26,130,390,900,1100,1275},200);	//Amagertorv
 		fields[32] = new Street(33, Color.yellow, 300, new int[]{26,130,390,900,1100,1275},200);	//Vimmelskaftet
 /**/		fields[33] = new Chance(34, Color.white);	//Chance
