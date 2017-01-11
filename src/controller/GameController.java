@@ -110,14 +110,20 @@ public class GameController {
 	protected Player defineNextPlayer(Player currentPlayer){
 		Player nextPlayer;
 
-		if(currentPlayer.getEqualCount() > 0 && currentPlayer.getAccount().getBalance() >= 0){
+		//current player is death
+		if(currentPlayer.getAccount().getBalance() < 0){
+			nextPlayer = players[currentPlayer.getID()-1];
+		}
+		//current player threw two equal
+		else if(currentPlayer.getEqualCount() > 0){
 			nextPlayer = currentPlayer;
 		}
+		//current player is last player in array
 		else if (currentPlayer == players[players.length-1]){
 			nextPlayer = players[0];
 		}
+		//find next player in array
 		else{
-			//find currentPlayer's index in players
 			int arrayIndex = 0;
 			for (int i=0;i<players.length;i++){
 				if (currentPlayer == players[i]){
