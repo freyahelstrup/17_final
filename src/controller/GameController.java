@@ -69,7 +69,7 @@ public class GameController {
 
 			if (players.length == 1){
 				winnerFound = true;
-				GUIController.getUserButtonPressed(currentPlayer + Messages.getGeneralMessages()[15], "ok");
+				GUIController.showMessage(currentPlayer + Messages.getGeneralMessages()[15]);
 			}
 			else{
 				currentPlayer = defineNextPlayer(currentPlayer);
