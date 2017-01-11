@@ -110,7 +110,7 @@ public class GameController {
 	protected Player defineNextPlayer(Player currentPlayer){
 		Player nextPlayer;
 
-		if(currentPlayer.getEqualCount() > 0){
+		if(currentPlayer.getEqualCount() > 0 && currentPlayer.getAccount().getBalance() >= 0){
 			nextPlayer = currentPlayer;
 		}
 		else if (currentPlayer == players[players.length-1]){
