@@ -32,31 +32,31 @@ public class TurnController {
 		do{
 
 			boolean buyHouseChoice = false;
-
-			Color color;
+			Color fieldColor;
 			
-			for (Ownable ownedField : player.getAccount().getOwnedFields()){
+			//we go through buildable streets
+			for (Street ownedStreet : player.getAccount().getBuildableStreets()){
 				
-				color = ownedField.getColor();
+				fieldColor = ownedStreet.getColor();
+				
+				//we find streets in group
 				int groupAmount = 0;
-				
 				for (Field boardField : board.getFields()){
-					if (boardField.getColor() == color){
+					if (boardField.getColor() == fieldColor && boardField instanceof Street){
 						groupAmount++;
 					}
 				}
 				
+				//we find streets in group owned by player
 				int ownedInGroup = 0;
-				for(Ownable ownedField2 : player.getAccount().getOwnedFields()){
-					if (ownedField2.getColor() == color){
+				for(Street ownedStreet2 : player.getAccount().getBuildableStreets()){
+					if (ownedStreet2.getColor() == fieldColor){
 						ownedInGroup++;
 					}
 				}
 				
-				if (ownedField instanceof Street 
-						&& ((Street) ownedField).getHousesOwned() < 5 //we should only allow houses bought when field has less than 5 houses (hotel) already
-						&& player.getAccount().getBalance() >= ((Street) ownedField).getHousePrice() //player can afford house
-						&& ownedInGroup == groupAmount){ //player owns all in group
+				//we figure out if player can buy houses/hotels
+				if (ownedInGroup == groupAmount){ //player owns all in group
 					buyHouseChoice = true;
 					break;	
 				}
