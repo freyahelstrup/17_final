@@ -1,10 +1,7 @@
 package demo;
 
-import controller.GUIController;
 import controller.GameController;
-import controller.TurnController;
 import tests.TurnController_TestClass;
-import entity.Board;
 import entity.Player;
 
 public class DemoGameController extends GameController {
