@@ -40,9 +40,7 @@ public class Account {
 	}
 
 	public Ownable[] getOwnedFields(){
-
 		return ownedFields;		
-
 	}
 	
 	public void setOwnedField(Ownable field){
@@ -60,5 +58,32 @@ public class Account {
 		ownedFields[temp.length] = field;
 
 	}
-	
+
+	public Street[] getBuildableStreets(){
+		
+		//find number of streets
+		int streetCounter = 0;
+		for (Ownable i : ownedFields){
+			if (i instanceof Street 
+					&& ((Street) i).getHousesOwned() < 5
+					&& balance >= ((Street) i).getHousePrice()){
+				streetCounter++;
+			}
+		}
+
+		//create new Street array
+		Street[] ownedStreets = new Street[streetCounter];
+
+		streetCounter = 0;
+		for (int i = 0; i < ownedFields.length; i++){
+			if (ownedFields[i] instanceof Street 
+					&& ((Street) ownedFields[i]).getHousesOwned() < 5
+					&& balance >= ((Street) ownedFields[i]).getHousePrice()){
+				ownedStreets[streetCounter] = (Street) ownedFields[i];
+				streetCounter++;
+			}
+		}
+		
+		return ownedStreets;
+	}
 }
