@@ -114,14 +114,16 @@ public class Messages {
 			/*20*/	"De er landet på deres egen ejendom og nyder de dejlige omgivelser.",
 			/*21*/	"Køb hus eller hotel",
 			/*22*/	"Leje: ",
-			/*23*/	"Leje: 500, 1000, 2000, 5000",
-			/*24*/	"Leje: 100*øjne*labor camps ejet",
+			/*23*/	"De skal betale ",
+			/*24*/	" kr. Er De sikker?",
 			/*25*/  "De har ikke nok penge til at købe dette felt.",
 			/*26*/ 	"De er landet på ",
 			/*27*/	"De har passeret ",
 			/*28*/	", og modtager ",
 			/*29*/	"De er blevet stoppet af politiet og sendes direkte i fængsel!",
 			/*30*/ 	"Hvilket felt vil De købe hus eller hotel til?",
+			/*31*/  "Betal 50 kr.",
+			/*32*/  "De er i fængsel. For at komme ud kan de betale 50 kr. eller slå to ens"
 	};
 
 	public static String[] getChanceMessages(){

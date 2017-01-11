@@ -62,37 +62,18 @@ public class TurnController {
 		}
 		while(!player.getChoice().equals(Messages.getGeneralMessages()[7])); //player does not want to throw dice
 
-		//We check if dice values are equal
-		if(dice.isEqual() == true && player.getEqualCount() != 2){
-			player.setEqualCount(player.getEqualCount()+1);
-		}
-
-		movingPiece = false; // A boolean to define, whether or not a piece shall move. I saw it necessary to simplify the code.
+		movingPiece = false; // A boolean to define whether or not a piece shall move. I saw it necessary to simplify the code.
 
 		// Player is not in prison
 		if (player.getPrisonCount() == 0) {
 			throwDice();
-
-			//Are dice equal?
-			if(dice.isEqual() == true && player.getEqualCount() != 2){
-				player.setEqualCount(player.getEqualCount()+1);
-				movingToPrison = false;
-			}
-			else if(dice.isEqual() == true && player.getEqualCount() == 2) { // if player rolls two equals for the third time, the player goes straight to prison.
-				movingToPrison = true;
-				player.setEqualCount(0);
-			}
-			else{
-				player.setEqualCount(0);
-				movingToPrison = false;
-			}
 			movingPiece = true;
 		}
-
 		// If player is in Prison
 		else if (player.getPrisonCount() > 0) {
 			prisonEscape();
 		}
+		
 		if (movingPiece) {
 			movePiece();
 			landOnField();
@@ -103,6 +84,26 @@ public class TurnController {
 		dice.throwDice();
 		player.setLastThrow(dice);
 		GUIController.setDice(dice);
+		
+		//Are dice equal?
+		if(dice.isEqual() == true){
+			//Player has thrown equals less than 3 times in a row
+			if (player.getEqualCount() != 2){
+				player.setEqualCount(player.getEqualCount()+1);
+				movingToPrison = false;
+			}
+			//Player has thrown equals 3 times in a row
+			else{
+				GUIController.showMessage(Messages.getGeneralMessages()[29]);
+				movingToPrison = true;
+				player.setEqualCount(0);
+			}
+		}
+		else{
+			player.setEqualCount(0);
+			movingToPrison = false;
+		}
+		
 	}
 
 	protected void buyHouseHotel(){
@@ -144,24 +145,29 @@ public class TurnController {
 		String userChoice = GUIController.getUserSelection(Messages.getGeneralMessages()[30], fieldNames);
 
 		Street chosenField = null;
-
 		for (Field i : board.getFields()){
-			if (Messages.getFieldNames()[i.getId()-1] == userChoice){
+			if (Messages.getFieldNames()[i.getId()-1].equals(userChoice)){
 				chosenField = (Street) i;
 			}
 		}
 
-		chosenField.setHousesOwned(chosenField.getHousesOwned()+1);
-		
-		if (chosenField.getHousesOwned() == 5){
-			GUIController.setHotel(chosenField);
+		//Are you sure?
+		String areYouSure = GUIController.getUserButtonPressed(Messages.getGeneralMessages()[23] + chosenField.getHousePrice() + Messages.getGeneralMessages()[24]
+				, Messages.getGeneralMessages()[1], Messages.getGeneralMessages()[2]);
+
+		if (areYouSure.equals(Messages.getGeneralMessages()[1])){
+			chosenField.setHousesOwned(chosenField.getHousesOwned()+1);
+			
+			if (chosenField.getHousesOwned() == 5){
+				GUIController.setHotel(chosenField);
+			}
+			else{
+				GUIController.setHouses(chosenField);
+			}
+			
+			player.getAccount().setBalance(player.getAccount().getBalance()-chosenField.getHousePrice());
+			GUIController.setPlayerBalance(player);
 		}
-		else{
-			GUIController.setHouses(chosenField);
-		}
-		
-		player.getAccount().setBalance(player.getAccount().getBalance()-chosenField.getHousePrice());
-		GUIController.setPlayerBalance(player);
 		
 	}
 
@@ -208,6 +214,7 @@ public class TurnController {
 			}
 		}
 		else{
+			currentField = board.getFields()[10];
 			moveToPrison();	// Moves the player and its piece straight to prison
 		}
 	}
@@ -257,7 +264,7 @@ public class TurnController {
 						Messages.getGeneralMessages()[13]});
 			}
 		// You have to pay rent
-			else if (owner.getAccount().getBalance() > 0){//pay rent to owner if he is not bankrupt
+			else if (owner.getAccount().getBalance() >= 0){//pay rent to owner if he is not bankrupt
 				int rent = 0;
 				if (currentField instanceof Brewery){
 					//when brewery we should multiply dice sum with 4 or 10, depending on the amount of owned brewery from the same owner.
@@ -319,11 +326,9 @@ public class TurnController {
 
 	protected void moveToPrison() {
 		GUIController.removeAllCars(player);
-		int position = 11; // prison
-		player.getPiece().setPosition(position);
+		player.getPiece().setPosition(11);
+		player.setPrisonCount(3);
 		GUIController.setCar(player);
-		currentField = board.getFields()[position-1];
-		player.setPrisonCount(3); // Three attempts to roll two equals to escape prison
 		player.setEqualCount(0);
 		movingToPrison = false;
 	}
@@ -331,14 +336,33 @@ public class TurnController {
 	protected void prisonEscape() {
 		// Player is in prison and has several attempts to get out.
 		if (player.getPrisonCount() > 1) {
-			throwDice();
-			if (dice.isEqual() == true) {
-				player.setEqualCount(1);
-				player.setPrisonCount(0);
-				movingPiece = true;
-			}else {
+			String playerChoice = determineUserInput(new String[]{
+					Messages.getGeneralMessages()[32],		//"De er i fængsel. For at komme ud kan de betale 50 kr. eller slå to ens"
+					Messages.getGeneralMessages()[31],		//"Betal 50 kr."
+					Messages.getGeneralMessages()[7]});		//"Slå med terningerne"
+			
+			player.setChoice(playerChoice);
+			
+			if(playerChoice.equals(Messages.getGeneralMessages()[7])){
+				throwDice();
+				
+				if (dice.isEqual() == true) {
+					player.setEqualCount(1);
+					player.setPrisonCount(0);
+					movingPiece = true;
+				}else {
+					player.setEqualCount(0);
+					player.setPrisonCount(player.getPrisonCount()-1);
+			}
+			
+			}
+			else if(playerChoice.equals(Messages.getGeneralMessages()[31])){
 				player.setEqualCount(0);
-				player.setPrisonCount(player.getPrisonCount()-1);
+				player.setPrisonCount(0);
+				player.getAccount().setBalance(player.getAccount().getBalance()-prisonEscapeFine); // pay the fine for getting out of prison
+				GUIController.setPlayerBalance(player);
+				throwDice();
+				movingPiece = true;
 			}
 		}
 		// Player is using his last attempt to get out
