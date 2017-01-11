@@ -41,6 +41,13 @@ public class GUIController {
 							.setSubText(determineSubText(board, i))
 							.build();	
 			}
+			else if (fields[i] instanceof Chance){
+					graphicfields[i] = new desktop_fields.Chance.Builder()
+//							.setTitle(determineSubText(board, i))
+//							.setDescription(Messages.getFieldNames()[i])
+//							.setSubText(determineSubText(board, i))
+							.build();
+			}	
 			else if (i == 20){
 				graphicfields[i] = new desktop_fields.Refuge.Builder()
 						.setTitle(Messages.getFieldNames()[i])

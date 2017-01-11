@@ -291,6 +291,9 @@ public class TurnController {
 			player.setChoice(playerChoice);
 			}
 		}
+		else if( currentField instanceof Chance){
+			
+		}
 
 		currentField.landOnField(player);
 		GUIController.setPlayerBalance(player);
