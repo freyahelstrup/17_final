@@ -1,5 +1,7 @@
 package controller;
 
+import java.awt.Color;
+
 import entity.*;
 
 public class TurnController {
@@ -30,10 +32,31 @@ public class TurnController {
 		do{
 
 			boolean buyHouseChoice = false;
-			for (Ownable i : player.getAccount().getOwnedFields()){
-				if (i instanceof Street 
-						&& ((Street) i).getHousesOwned() < 5 //we should only allow houses bought when field has less than 5 houses (hotel) already
-						&& player.getAccount().getBalance() >= ((Street) i).getHousePrice()){
+
+			Color color;
+			
+			for (Ownable ownedField : player.getAccount().getOwnedFields()){
+				
+				color = ownedField.getColor();
+				int groupAmount = 0;
+				
+				for (Field boardField : board.getFields()){
+					if (boardField.getColor() == color){
+						groupAmount++;
+					}
+				}
+				
+				int ownedInGroup = 0;
+				for(Ownable ownedField2 : player.getAccount().getOwnedFields()){
+					if (ownedField2.getColor() == color){
+						ownedInGroup++;
+					}
+				}
+				
+				if (ownedField instanceof Street 
+						&& ((Street) ownedField).getHousesOwned() < 5 //we should only allow houses bought when field has less than 5 houses (hotel) already
+						&& player.getAccount().getBalance() >= ((Street) ownedField).getHousePrice() //player can afford house
+						&& ownedInGroup == groupAmount){ //player owns all in group
 					buyHouseChoice = true;
 					break;	
 				}
