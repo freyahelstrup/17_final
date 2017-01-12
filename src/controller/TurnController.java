@@ -1,5 +1,7 @@
 package controller;
 
+import java.awt.Color;
+
 import entity.*;
 
 public class TurnController {
@@ -30,16 +32,35 @@ public class TurnController {
 		do{
 
 			boolean buyHouseChoice = false;
-			for (Ownable i : player.getAccount().getOwnedFields()){
-				if (i instanceof Street 
-						&& ((Street) i).getHousesOwned() < 5 //we should only allow houses bought when field has less than 5 houses (hotel) already
-						&& player.getAccount().getBalance() >= ((Street) i).getHousePrice()){
+			
+			//we go through owned buildable streets
+			for (Street ownedStreet : player.getAccount().getBuildableStreets()){
+				
+				Color fieldColor = ownedStreet.getColor();
+				
+				//we find number of streets in group
+				int groupAmount = 0;
+				for (Field boardField : board.getFields()){
+					if (boardField.getColor() == fieldColor && boardField instanceof Street){
+						groupAmount++;
+					}
+				}
+				
+				//we find streets in group owned by player
+				int ownedInGroup = 0;
+				for(Ownable ownedField : player.getAccount().getOwnedFields()){
+					if (ownedField.getColor() == fieldColor && ownedField instanceof Street){
+						ownedInGroup++;
+					}
+				}
+				
+				//we find out if player has all streets in group
+				if (ownedInGroup == groupAmount){ //player owns all in group
 					buyHouseChoice = true;
 					break;	
 				}
 			}
 			
-
 			//Player can buy houses
 			if (buyHouseChoice == true){
 
@@ -50,11 +71,10 @@ public class TurnController {
 
 				//Player wants to buy house or hotel
 				if (player.getChoice().equals(Messages.getGeneralMessages()[21])){
-
 					buyHouseHotel();
-
 				}
 			}
+			//Player can only throw dice
 			else{
 				player.setChoice(determineUserInput(new String[]{Messages.getGeneralMessages()[11] + player.getName() + Messages.getGeneralMessages()[12],
 						Messages.getGeneralMessages()[7]}));
@@ -108,33 +128,63 @@ public class TurnController {
 
 	protected void buyHouseHotel(){
 
-		//we find streets of all owned fields
-		Ownable[] ownedFields = player.getAccount().getOwnedFields();
+		Street[] ownedStreets = player.getAccount().getBuildableStreets();
+		
+		//we go through owned buildable streets
+		for (Street ownedStreet : player.getAccount().getBuildableStreets()){
+			
+			Color fieldColor = ownedStreet.getColor();
+			
+			//we find number of streets in group and min and max houses
+			int groupAmount = 0;
+			int maxHouses = 0;
+			int minHouses = 5;
+			for (Field boardField : board.getFields()){
+				if (boardField.getColor() == fieldColor && boardField instanceof Street){
+					groupAmount++;
 
-			//find number of streets
-			int streetCounter = 0;
-			for (Ownable i : ownedFields){
-				if (i instanceof Street 
-						&& ((Street) i).getHousesOwned() < 5
-						&& player.getAccount().getBalance() >= ((Street) i).getHousePrice()){
-					streetCounter++;
+					//we find current min amount of houses in group
+					if(((Street) boardField).getHousesOwned() < minHouses){
+						minHouses = ((Street) boardField).getHousesOwned();
+					}
+					
+					//we find current max amount of houses in group
+					if(((Street) boardField).getHousesOwned() > maxHouses){
+						maxHouses = ((Street) boardField).getHousesOwned();
+					}
 				}
 			}
-
-			//create new Street array
-			Street[] ownedStreets = new Street[streetCounter];
-
-			streetCounter = 0;
-			for (int i = 0; i < ownedFields.length; i++){
-				if (ownedFields[i] instanceof Street 
-						&& ((Street) ownedFields[i]).getHousesOwned() < 5
-						&& player.getAccount().getBalance() >= ((Street) ownedFields[i]).getHousePrice()){
-					ownedStreets[streetCounter] = (Street) ownedFields[i];
-					streetCounter++;
+			
+			//we find streets in group owned by player
+			int ownedInGroup = 0;
+			for(Ownable ownedField : player.getAccount().getOwnedFields()){
+				if (ownedField.getColor() == fieldColor && ownedField instanceof Street){
+					ownedInGroup++;
 				}
 			}
-
-		//we find all names of owned streets
+			
+			//we find out if player has all streets in group
+			if (ownedInGroup == groupAmount //player owns all in group
+				&& (ownedStreet.getHousesOwned() < maxHouses //field has less houses than other field in group
+					|| (ownedStreet.getHousesOwned() == maxHouses && minHouses == maxHouses))){ //all fields have same number of houses
+				//everything is good
+			}
+			//we remove street from ownedStreets
+			else{
+				Street[] oldArray = ownedStreets;
+				ownedStreets = new Street[oldArray.length-1];
+						
+				int counter = 0;
+				for (Street i : oldArray){
+					if (i != ownedStreet){
+						ownedStreets[counter] = i;
+						counter++;
+					}
+				}
+			}
+		}
+		
+		//we find names of the streets
 		String[] fieldNames = new String[ownedStreets.length];
 
 		for (int i = 0; i < fieldNames.length; i++){
