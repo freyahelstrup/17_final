@@ -12,6 +12,7 @@ public abstract class Ownable extends Field{
 		this.price = price;
 	}
 	
+	@Override
 	public void landOnField(Player player){
 		int balance = player.getAccount().getBalance();
 		
