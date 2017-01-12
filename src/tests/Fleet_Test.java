@@ -8,12 +8,8 @@ import org.junit.Test;
 
 import entity.Account;
 import entity.Fleet;
-import entity.Ownable;
-import entity.Field;
-import entity.Messages;
 import entity.Piece;
 import entity.Player;
-import junit.framework.Assert;
 
 public class Fleet_Test {
 
