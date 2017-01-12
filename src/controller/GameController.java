@@ -31,7 +31,7 @@ public class GameController {
 			
 			players[i] = new Player(i+1,Messages.getGeneralMessages()[10]+(i+1),new Piece(color), new Account(balance));
 
-			GUIController.addPlayer(players[i]);
+			GUIController.addPlayer(players[i].getName(),players[i].getAccount().getBalance(),players[i].getPiece().getColor());
 			
 			for (Field j : board.getFields()){
 				if (j instanceof Ownable){
@@ -42,7 +42,7 @@ public class GameController {
 					//remove houses and hotels
 					if (j instanceof Street){
 						((Street) j).setHousesOwned(0);
-						GUIController.setHouses((Street) j);
+						GUIController.setHouses(j.getId(),0);
 					}
 				}
 				
@@ -91,7 +91,7 @@ public class GameController {
 			}
 		}
 
-		GUIController.removeAllCars(player);
+		GUIController.removeAllCars(player.getName());
 		
 		//puts players owned fields back on sale
 		for (Ownable i : player.getAccount().getOwnedFields()){
@@ -100,7 +100,7 @@ public class GameController {
 				i.setOwner(null);
 				if (i instanceof Street){
 					((Street) i).setHousesOwned(0);
-					GUIController.setHouses((Street) i);
+					GUIController.setHouses(i.getId(),0);
 				}
 			}
 		}
