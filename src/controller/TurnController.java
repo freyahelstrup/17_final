@@ -343,6 +343,7 @@ public class TurnController {
 			
 			player.setChoice(playerChoice);
 			
+			//Player wants to throw dice
 			if(playerChoice.equals(Messages.getGeneralMessages()[7])){
 				throwDice();
 				
@@ -353,9 +354,9 @@ public class TurnController {
 				}else {
 					player.setEqualCount(0);
 					player.setPrisonCount(player.getPrisonCount()-1);
+				}
 			}
-			
-			}
+			//Player wants to pay fine
 			else if(playerChoice.equals(Messages.getGeneralMessages()[31])){
 				player.setEqualCount(0);
 				player.setPrisonCount(0);
