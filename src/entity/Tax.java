@@ -12,6 +12,7 @@ public class Tax extends Field {
 		this.taxAmount = taxAmount;
 	}
 	
+	@Override
 	public void landOnField(Player player){
 		int balance = player.getAccount().getBalance();
 		
