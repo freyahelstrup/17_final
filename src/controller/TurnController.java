@@ -48,8 +48,8 @@ public class TurnController {
 				
 				//we find streets in group owned by player
 				int ownedInGroup = 0;
-				for(Street ownedStreet2 : player.getAccount().getBuildableStreets()){
-					if (ownedStreet2.getColor() == fieldColor){
+				for(Ownable ownedField : player.getAccount().getOwnedFields()){
+					if (ownedField.getColor() == fieldColor && ownedField instanceof Street){
 						ownedInGroup++;
 					}
 				}
@@ -135,7 +135,7 @@ public class TurnController {
 			
 			Color fieldColor = ownedStreet.getColor();
 			
-			//we find number of streets in group
+			//we find number of streets in group and min and max houses
 			int groupAmount = 0;
 			int maxHouses = 0;
 			int minHouses = 5;
@@ -157,8 +157,8 @@ public class TurnController {
 			
 			//we find streets in group owned by player
 			int ownedInGroup = 0;
-			for(Street ownedStreet2 : player.getAccount().getBuildableStreets()){
-				if (ownedStreet2.getColor() == fieldColor){
+			for(Ownable ownedField : player.getAccount().getOwnedFields()){
+				if (ownedField.getColor() == fieldColor && ownedField instanceof Street){
 					ownedInGroup++;
 				}
 			}
@@ -166,7 +166,7 @@ public class TurnController {
 			//we find out if player has all streets in group
 			if (ownedInGroup == groupAmount //player owns all in group
 				&& (ownedStreet.getHousesOwned() < maxHouses //field has less houses than other field in group
-					|| (ownedStreet.getHousesOwned() == maxHouses) && minHouses == maxHouses)){ //all fields have same number of houses
+					|| (ownedStreet.getHousesOwned() == maxHouses && minHouses == maxHouses))){ //all fields have same number of houses
 				//everything is good
 			}
 			//we remove street from ownedStreets
