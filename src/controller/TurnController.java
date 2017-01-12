@@ -77,6 +77,12 @@ public class TurnController {
 		if (movingPiece) {
 			movePiece();
 			landOnField();
+			if((currentField instanceof Chance) && (Chance.isMoveCard() == true)){
+				GUIController.removeAllCars(player);
+				currentField = board.getFields()[player.getPiece().getPosition()-1];
+				GUIController.setCar(player);
+				landOnField();
+			}
 		}
 	}
 
@@ -225,8 +231,8 @@ public class TurnController {
 			determineUserInput(new String[]{Messages.getGeneralMessages()[26] + Messages.getFieldNames()[(player.getPiece().getPosition())-1],
 					Messages.getGeneralMessages()[13]});
 		}
-
-		if (player.getPiece().getPosition()-1 == 30) { // goToPrison field.
+	//GoToPrison field	
+		if (player.getPiece().getPosition()-1 == 30) { 
 			GUIController.removeAllCars(player);
 			moveToPrison();
 			GUIController.showMessage(Messages.getGeneralMessages()[29]);
@@ -278,7 +284,7 @@ public class TurnController {
 						Messages.getGeneralMessages()[13]});
 			}
 		}
-
+	
 	//Tax
 		else if( currentField instanceof Tax) {
 			if ( ((Tax) currentField).getTaxRate() > 0) {
@@ -291,10 +297,10 @@ public class TurnController {
 			player.setChoice(playerChoice);
 			}
 		}
+	//Chance	
 		else if( currentField instanceof Chance){
-			
+			GUIController.showMessage(Messages.getChanceMessages()[Chance.getCardID()]);
 		}
-
 		currentField.landOnField(player);
 		GUIController.setPlayerBalance(player);
 		if (currentField instanceof Ownable){
