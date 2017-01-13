@@ -32,7 +32,7 @@ public class TC02 {
 		((Ownable) board.getFields()[1]).setOwner(player);
 		
 		TurnController_TestClass turn = new TurnController_TestClass(player, board);
-		turn.setTestData(new int[]{1,2}); //Land på Rødovrevej
+		turn.setTestData(new int[]{1,2}); //Land på Hvidovre
 		turn.setUserChoice(new String[]{
 				Messages.getGeneralMessages()[21] //Køb hus
 				,Messages.getFieldNames()[1] //Field 2
