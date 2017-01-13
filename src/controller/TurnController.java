@@ -109,7 +109,7 @@ public class TurnController {
 	protected void throwDice(){
 		dice.throwDice();
 		player.setLastThrow(dice);
-		GUIController.setDice(dice);
+		GUIController.setDice(dice.getDice()[0].getValue(),dice.getDice()[1].getValue());
 		
 		//Are dice equal?
 		if(dice.isEqual() == true){
@@ -215,14 +215,14 @@ public class TurnController {
 			chosenField.setHousesOwned(chosenField.getHousesOwned()+1);
 			
 			if (chosenField.getHousesOwned() == 5){
-				GUIController.setHotel(chosenField);
+				GUIController.setHotel(chosenField.getId());
 			}
 			else{
-				GUIController.setHouses(chosenField);
+				GUIController.setHouses(chosenField.getId(),chosenField.getHousesOwned());
 			}
 			
 			player.getAccount().setBalance(player.getAccount().getBalance()-chosenField.getHousePrice());
-			GUIController.setPlayerBalance(player);
+			GUIController.setPlayerBalance(player.getName(), player.getAccount().getBalance());
 		}
 		
 	}
@@ -234,7 +234,7 @@ public class TurnController {
 		/*
 		 * If there has already been placed a car, we remove it before placing a new one
 		 */
-		GUIController.removeAllCars(player);
+		GUIController.removeAllCars(player.getName());
 
 		// Make sure the player did not throw 3 equals in a row.
 		if (movingToPrison == false) {
@@ -250,7 +250,7 @@ public class TurnController {
 
 			//We set the car and piece position to the new values
 			player.getPiece().setPosition(position);
-			GUIController.setCar(player);
+			GUIController.setCar(player.getPiece().getPosition(),player.getName());
 			currentField = board.getFields()[position-1];
 
 			// Money when passing or landing on start
@@ -266,7 +266,7 @@ public class TurnController {
 				}
 				player.getAccount().setBalance(player.getAccount().getBalance() + payday);
 
-				GUIController.setPlayerBalance(player);
+				GUIController.setPlayerBalance(player.getName(), player.getAccount().getBalance());
 			}
 		}
 		else{
@@ -283,7 +283,7 @@ public class TurnController {
 		}
 
 		if (player.getPiece().getPosition()-1 == 30) { // goToPrison field.
-			GUIController.removeAllCars(player);
+			GUIController.removeAllCars(player.getName());
 			moveToPrison();
 			GUIController.showMessage(Messages.getGeneralMessages()[29]);
 		}
@@ -306,7 +306,7 @@ public class TurnController {
 				player.setChoice(playerChoice);
 
 				if (playerChoice.equals(Messages.getGeneralMessages()[1])) { // User chooses yes
-					GUIController.setFieldOwner(player, player.getPiece().getPosition());
+					GUIController.setFieldOwner(player.getName(), player.getPiece().getPosition());
 				}
 			}
 			// You don't have enough money to buy field
@@ -353,10 +353,10 @@ public class TurnController {
 		}
 
 		currentField.landOnField(player);
-		GUIController.setPlayerBalance(player);
+		GUIController.setPlayerBalance(player.getName(),player.getAccount().getBalance());
 		if (currentField instanceof Ownable){
 			if (((Ownable) currentField).getOwner() != null){
-				GUIController.setPlayerBalance(((Ownable) currentField).getOwner());
+				GUIController.setPlayerBalance(((Ownable) currentField).getOwner().getName(),((Ownable) currentField).getOwner().getAccount().getBalance());
 			}
 		}
 	}
@@ -385,10 +385,10 @@ public class TurnController {
 	}
 
 	protected void moveToPrison() {
-		GUIController.removeAllCars(player);
+		GUIController.removeAllCars(player.getName());
 		player.getPiece().setPosition(11);
 		player.setPrisonCount(3);
-		GUIController.setCar(player);
+		GUIController.setCar(player.getPiece().getPosition(),player.getName());
 		player.setEqualCount(0);
 		movingToPrison = false;
 	}
@@ -421,7 +421,7 @@ public class TurnController {
 				player.setEqualCount(0);
 				player.setPrisonCount(0);
 				player.getAccount().setBalance(player.getAccount().getBalance()-prisonEscapeFine); // pay the fine for getting out of prison
-				GUIController.setPlayerBalance(player);
+				GUIController.setPlayerBalance(player.getName(), player.getAccount().getBalance());
 				throwDice();
 				movingPiece = true;
 			}
@@ -437,7 +437,7 @@ public class TurnController {
 				player.setEqualCount(0);
 				player.setPrisonCount(0);
 				player.getAccount().setBalance(player.getAccount().getBalance()-prisonEscapeFine); // pay the fine for getting out of prison
-				GUIController.setPlayerBalance(player);
+				GUIController.setPlayerBalance(player.getName(), player.getAccount().getBalance());
 			}
 			movingPiece = true;
 		}
