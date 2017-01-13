@@ -67,7 +67,12 @@ public class Chance extends Field {
 		case 5:	passedStart(player, 1);
 				player.getPiece().setPosition(1);
 				break;
-		case 6:	player.getPiece().setPosition(player.getPiece().getPosition()-3); //ryk 3 felter tilbage
+		case 6:	if(player.getPiece().getPosition() == 3){ 	//if the player draws this card on the first chanceCard field
+					player.getPiece().setPosition(40);		//move to position 40
+				}
+				else{					
+					player.getPiece().setPosition(player.getPiece().getPosition()-3); //ryk 3 felter tilbage
+				}
 				break;
 //not implemented		case 7: 
 //				break;
