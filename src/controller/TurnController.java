@@ -97,6 +97,12 @@ public class TurnController {
 		if (movingPiece) {
 			movePiece();
 			landOnField();
+			if((currentField instanceof Chance) && (Chance.isMoveCard() == true)){
+				GUIController.removeAllCars(player);
+				currentField = board.getFields()[player.getPiece().getPosition()-1];
+				GUIController.setCar(player);
+				landOnField();
+			}
 		}
 	}
 
@@ -340,6 +346,10 @@ public class TurnController {
 
 			player.setChoice(playerChoice);
 			}
+		}
+	//Chance	
+		else if( currentField instanceof Chance){
+			GUIController.showMessage(Messages.getChanceMessages()[Chance.getCardID()]);
 		}
 
 		currentField.landOnField(player);
