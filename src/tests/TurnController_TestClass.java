@@ -1,17 +1,22 @@
 package tests;
 
+import java.awt.Color;
+
+import controller.GUIController;
 import controller.TurnController;
 import entity.Board;
+import entity.Chance;
 import entity.DiceCup;
+import entity.Field;
 import entity.Messages;
 import entity.Ownable;
 import entity.Player;
 import entity.Street;
+import entity.Tax;
 
 public class TurnController_TestClass extends TurnController {
 	private int[] data;
-	private DiceCup dice;
-	private String[] userChoiceArray;
+	private String[] userChoice;
 	private int userChoiceCounter;
 	
 	//This class is used to determine specific dice rolls and player inputs to be used in white-box and black-box testing
@@ -45,37 +50,57 @@ public class TurnController_TestClass extends TurnController {
 		//This used to be in the constructor, but problems arrived when trying to implement
 		//a test class inheriting from this class as it requires the super class constructor to be used,
 		//which in turn prevents us from doing any of our own determined inputs
-
+		
 		do{
 
 			boolean buyHouseChoice = false;
-			for (Ownable i : player.getAccount().getOwnedFields()){
-				if (i instanceof Street 
-						&& ((Street) i).getHousesOwned() < 5 //we should only allow houses bought when field has less than 5 houses (hotel) already
-						&& player.getAccount().getBalance() >= ((Street) i).getHousePrice()){
+			
+			//we go through owned buildable streets
+			for (Street ownedStreet : player.getAccount().getBuildableStreets()){
+				
+				Color fieldColor = ownedStreet.getColor();
+				
+				//we find number of streets in group
+				int groupAmount = 0;
+				for (Field boardField : board.getFields()){
+					if (boardField.getColor() == fieldColor && boardField instanceof Street){
+						groupAmount++;
+					}
+				}
+				
+				//we find streets in group owned by player
+				int ownedInGroup = 0;
+				for(Ownable ownedField : player.getAccount().getOwnedFields()){
+					if (ownedField.getColor() == fieldColor && ownedField instanceof Street){
+						ownedInGroup++;
+					}
+				}
+				
+				//we find out if player has all streets in group
+				if (ownedInGroup == groupAmount){ //player owns all in group
 					buyHouseChoice = true;
 					break;	
 				}
 			}
-			
 
 			//Player can buy houses
 			if (buyHouseChoice == true){
 
 				//Do you want to throw dice or buy houses/hotels
 				player.setChoice(determineUserInput(new String[]{Messages.getGeneralMessages()[11] + player.getName() + Messages.getGeneralMessages()[12],
-					userChoiceArray[userChoiceCounter]}));
-
+					userChoice[userChoiceCounter]}));
+				userChoiceCounter++;
+				
 				//Player wants to buy house or hotel
 				if (player.getChoice().equals(Messages.getGeneralMessages()[21])){
-
 					buyHouseHotel();
-
 				}
 			}
+			//Player can only throw dice
 			else{
 				player.setChoice(determineUserInput(new String[]{Messages.getGeneralMessages()[11] + player.getName() + Messages.getGeneralMessages()[12],
-						Messages.getGeneralMessages()[7]}));
+						userChoice[userChoiceCounter]}));
+				userChoiceCounter++;
 			}
 		}
 		while(!player.getChoice().equals(Messages.getGeneralMessages()[7])); //player does not want to throw dice
@@ -91,10 +116,84 @@ public class TurnController_TestClass extends TurnController {
 		else if (player.getPrisonCount() > 0) {
 			prisonEscape();
 		}
-		
+
 		if (movingPiece) {
 			movePiece();
 			landOnField();
+			if((currentField instanceof Chance) && (Chance.isMoveCard() == true)){
+				GUIController.removeAllCars(player.getName());
+				currentField = board.getFields()[player.getPiece().getPosition()-1];
+				GUIController.setCar(player.getPiece().getPosition(), player.getName());
+				landOnField();
+			}
+		}
+	}
+	
+	@Override
+	protected void landOnField(){
+		// You landed on
+		if (player.getPiece().getPosition()-1 != 0) { // No need to tell that you landed on start, when the MovePiece says it
+		}
+
+		if (player.getPiece().getPosition()-1 == 30) { // goToPrison field.
+			GUIController.removeAllCars(player.getName());
+			moveToPrison();
+		}
+
+		int playerBalance = player.getAccount().getBalance();
+
+	//Ownable
+		if (currentField instanceof Ownable) {
+			Player owner = ((Ownable) currentField).getOwner();
+			int price = ((Ownable) currentField).getPrice();
+
+		// Do you wish to buy it?
+			if (owner == null && playerBalance >= price) {
+				String playerChoice = determineUserInput(new String[]{
+						Messages.getGeneralMessages()[0] + ((Ownable) currentField).getPrice() + "?"
+						,userChoice[userChoiceCounter]
+								});
+				userChoiceCounter++;
+				
+				player.setChoice(playerChoice);
+
+				if (playerChoice.equals(Messages.getGeneralMessages()[1])) { // User chooses yes
+					GUIController.setFieldOwner(player.getName(), player.getPiece().getPosition());
+				}
+			}
+			// You don't have enough money to buy field
+			else if(owner == null && playerBalance < price){
+			}
+		// You own the field
+			else if (owner == player){
+			}
+		// You have to pay rent
+			else if (owner.getAccount().getBalance() >= 0){//pay rent to owner if he is not bankrupt
+			}
+		}
+
+	//Tax
+		else if( currentField instanceof Tax) {
+			if ( ((Tax) currentField).getTaxRate() > 0) {
+
+			String playerChoice = determineUserInput(new String[]{
+					Messages.getGeneralMessages()[3]
+					,userChoice[userChoiceCounter]});
+			userChoiceCounter++;
+
+			player.setChoice(playerChoice);
+			}
+		}
+	//Chance	
+		else if( currentField instanceof Chance){
+		}
+
+		currentField.landOnField(player);
+		GUIController.setPlayerBalance(player.getName(),player.getAccount().getBalance());
+		if (currentField instanceof Ownable){
+			if (((Ownable) currentField).getOwner() != null){
+				GUIController.setPlayerBalance(((Ownable) currentField).getOwner().getName(),((Ownable) currentField).getOwner().getAccount().getBalance());
+			}
 		}
 	}
 	
@@ -102,11 +201,9 @@ public class TurnController_TestClass extends TurnController {
 		this.data = data;
 	}
 	
-	public void setUserChoiceArray(String[] data){
+	public void setUserChoice(String[] data){
 		userChoiceCounter = 0;
-		this.userChoiceArray = data;
+		this.userChoice = data;
 	}
 	
-	
-
 }

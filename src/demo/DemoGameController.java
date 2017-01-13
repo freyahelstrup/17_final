@@ -2,6 +2,7 @@ package demo;
 
 import controller.GameController;
 import tests.TurnController_TestClass;
+import entity.Board;
 import entity.Player;
 
 public class DemoGameController extends GameController {
@@ -45,6 +46,10 @@ public class DemoGameController extends GameController {
 		
 		};
 	int testDataCounter = 0;
+	String[][] userChoice = new String[][]{
+		{}
+		};
+	int userChoiceCounter = 0;
 	
 	@Override
 	public void playGame(){
@@ -60,6 +65,10 @@ public class DemoGameController extends GameController {
 			if(testDataCounter<testData.length){
 				turn.setTestData(testData[testDataCounter]);
 				testDataCounter++;
+			}
+			if(userChoiceCounter<userChoice.length){
+				turn.setUserChoice(userChoice[userChoiceCounter]);
+				userChoiceCounter++;
 			}
 			turn.playTurn();
 			
@@ -79,8 +88,16 @@ public class DemoGameController extends GameController {
 	public void setTestData(int[][] data){
 		this.testData = data;
 	}
+
+	public void setUserChoice(String[][] userChoice){
+		this.userChoice = userChoice;
+	}
 	
 	public Player[] getPlayerArray(){
 		return players;
+	}
+	
+	public Board getBoard(){
+		return board;
 	}
 }
