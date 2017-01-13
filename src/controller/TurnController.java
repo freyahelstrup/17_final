@@ -120,7 +120,7 @@ public class TurnController {
 			}
 			//Player has thrown equals 3 times in a row
 			else{
-				GUIController.showMessage(Messages.getGeneralMessages()[29]);
+				determineUserInput(new String[]{Messages.getGeneralMessages()[29], Messages.getGeneralMessages()[29]});
 				movingToPrison = true;
 				player.setEqualCount(0);
 			}
@@ -208,8 +208,8 @@ public class TurnController {
 		}
 
 		//Are you sure?
-		String areYouSure = GUIController.getUserButtonPressed(Messages.getGeneralMessages()[23] + chosenField.getHousePrice() + Messages.getGeneralMessages()[24]
-				, Messages.getGeneralMessages()[1], Messages.getGeneralMessages()[2]);
+		String areYouSure = determineUserInput(new String[]{Messages.getGeneralMessages()[23] + chosenField.getHousePrice() + Messages.getGeneralMessages()[24]
+				, Messages.getGeneralMessages()[1], Messages.getGeneralMessages()[2]});
 
 		if (areYouSure.equals(Messages.getGeneralMessages()[1])){
 			chosenField.setHousesOwned(chosenField.getHousesOwned()+1);
@@ -256,12 +256,12 @@ public class TurnController {
 			// Money when passing or landing on start
 			if (oldPosition > position) {
 				if (position == 1) {
-					GUIController.showMessage(
+					determineUserInput(new String[]{
 							Messages.getGeneralMessages()[26] + Messages.getFieldNames()[0] + 		// You landed on Start
-							Messages.getGeneralMessages()[28] + payday);							// and receives the payday amount (200)
+							Messages.getGeneralMessages()[28] + payday});							// and receives the payday amount (200)
 				}else {
-					GUIController.showMessage(Messages.getGeneralMessages()[27] + Messages.getFieldNames()[0] +		// You passed start
-							Messages.getGeneralMessages()[28] + payday);											// and receives the payday amount (200)
+					determineUserInput(new String[]{Messages.getGeneralMessages()[27] + Messages.getFieldNames()[0] +		// You passed start
+							Messages.getGeneralMessages()[28] + payday});											// and receives the payday amount (200)
 
 				}
 				player.getAccount().setBalance(player.getAccount().getBalance() + payday);
@@ -278,14 +278,13 @@ public class TurnController {
 	protected void landOnField(){
 		// You landed on
 		if (player.getPiece().getPosition()-1 != 0) { // No need to tell that you landed on start, when the MovePiece says it
-			determineUserInput(new String[]{Messages.getGeneralMessages()[26] + Messages.getFieldNames()[(player.getPiece().getPosition())-1],
-					Messages.getGeneralMessages()[13]});
+			determineUserInput(new String[]{Messages.getGeneralMessages()[26] + Messages.getFieldNames()[(player.getPiece().getPosition())-1]});
 		}
 
 		if (player.getPiece().getPosition()-1 == 30) { // goToPrison field.
 			GUIController.removeAllCars(player.getName());
 			moveToPrison();
-			GUIController.showMessage(Messages.getGeneralMessages()[29]);
+			determineUserInput(new String[]{Messages.getGeneralMessages()[29]});
 		}
 
 		int playerBalance = player.getAccount().getBalance();
@@ -311,13 +310,11 @@ public class TurnController {
 			}
 			// You don't have enough money to buy field
 			else if(owner == null && playerBalance < price){
-				determineUserInput(new String[]{player.getName() + ": " + Messages.getGeneralMessages()[25],
-						Messages.getGeneralMessages()[13]});
+				determineUserInput(new String[]{player.getName() + ": " + Messages.getGeneralMessages()[25]});
 			}
 		// You own the field
 			else if (owner == player){
-				determineUserInput(new String[]{player.getName() + ": " + Messages.getGeneralMessages()[20],
-						Messages.getGeneralMessages()[13]});
+				determineUserInput(new String[]{player.getName() + ": " + Messages.getGeneralMessages()[20]});
 			}
 		// You have to pay rent
 			else if (owner.getAccount().getBalance() >= 0){//pay rent to owner if he is not bankrupt
@@ -330,8 +327,7 @@ public class TurnController {
 					rent = ((Ownable) currentField).getRent();
 				}
 
-				determineUserInput(new String[]{player.getName() + ": " + Messages.getGeneralMessages()[9] + rent + Messages.getGeneralMessages()[16],
-						Messages.getGeneralMessages()[13]});
+				determineUserInput(new String[]{player.getName() + ": " + Messages.getGeneralMessages()[9] + rent + Messages.getGeneralMessages()[16]});
 			}
 		}
 
@@ -349,7 +345,7 @@ public class TurnController {
 		}
 	//Chance	
 		else if( currentField instanceof Chance){
-			GUIController.showMessage(Messages.getChanceMessages()[Chance.getCardID()]);
+			determineUserInput(new String[]{Messages.getChanceMessages()[Chance.getCardID()]});
 		}
 
 		currentField.landOnField(player);
@@ -366,7 +362,8 @@ public class TurnController {
 		String text;
 		switch(input.length) {
 			case 1:
-				text = GUIController.getUserButtonPressed(input[0]);
+				GUIController.showMessage(input[0]);
+				text = Messages.getGeneralMessages()[13]; //OK
 				break;
 			case 2:
 				text = GUIController.getUserButtonPressed(input[0], input[1]);
