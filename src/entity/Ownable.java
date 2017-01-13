@@ -40,9 +40,14 @@ public abstract class Ownable extends Field{
 			else{
 				rent = getRent();
 			}
-			
-			owner.getAccount().setBalance(owner.getAccount().getBalance() + rent);
-			player.getAccount().setBalance(balance - rent);		
+			//if the player does not have enough money to pay all the rent, the owner should only be given what's left
+			if(player.getAccount().getBalance() < rent){
+				owner.getAccount().setBalance(owner.getAccount().getBalance() + player.getAccount().getBalance());	
+			}
+			else{
+				owner.getAccount().setBalance(owner.getAccount().getBalance() + rent);	
+			}
+			player.getAccount().setBalance(balance - rent);
 		}
 	}
 	

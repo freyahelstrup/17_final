@@ -1,12 +1,12 @@
 package entity;
 
 public class Account {
-	private int jailFreeCounter;
+	//not implemented private int jailFreeCounter;
 	private int balance;
 	private Ownable[] ownedFields;
 	
 	public Account(int startBalance){
-		jailFreeCounter = 0;
+		//jailFreeCounter = 0;
 		this.balance = startBalance;
 
 		ownedFields = new Ownable[0];
@@ -31,13 +31,13 @@ public class Account {
 		return balance;
 	}
 	
-	public void setJailFreeCounter(int jailFreeCounter){
-		this.jailFreeCounter = jailFreeCounter;
-	}
+//	public void setJailFreeCounter(int jailFreeCounter){
+//		this.jailFreeCounter = jailFreeCounter;
+//	}
 
-	public int getJailFreeCounter(){
-		return jailFreeCounter;
-	}
+//	public int getJailFreeCounter(){
+//		return jailFreeCounter;
+//	}
 
 	public Ownable[] getOwnedFields(){
 		return ownedFields;		
