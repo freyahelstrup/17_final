@@ -98,9 +98,9 @@ public class TurnController {
 			movePiece();
 			landOnField();
 			if((currentField instanceof Chance) && (Chance.isMoveCard() == true)){
-				GUIController.removeAllCars(player);
+				GUIController.removeAllCars(player.getName());
 				currentField = board.getFields()[player.getPiece().getPosition()-1];
-				GUIController.setCar(player);
+				GUIController.setCar(player.getPiece().getPosition(), player.getName());
 				landOnField();
 			}
 		}
