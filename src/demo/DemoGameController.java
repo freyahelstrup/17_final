@@ -75,4 +75,12 @@ public class DemoGameController extends GameController {
 			}
 		}
 	}
+	
+	public void setTestData(int[][] data){
+		this.testData = data;
+	}
+	
+	public Player[] getPlayerArray(){
+		return players;
+	}
 }
