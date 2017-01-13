@@ -1,5 +1,7 @@
 package controller;
 
+import java.awt.Color;
+
 import entity.*;
 
 public class TurnController {
@@ -30,16 +32,35 @@ public class TurnController {
 		do{
 
 			boolean buyHouseChoice = false;
-			for (Ownable i : player.getAccount().getOwnedFields()){
-				if (i instanceof Street 
-						&& ((Street) i).getHousesOwned() < 5 //we should only allow houses bought when field has less than 5 houses (hotel) already
-						&& player.getAccount().getBalance() >= ((Street) i).getHousePrice()){
+			
+			//we go through owned buildable streets
+			for (Street ownedStreet : player.getAccount().getBuildableStreets()){
+				
+				Color fieldColor = ownedStreet.getColor();
+				
+				//we find number of streets in group
+				int groupAmount = 0;
+				for (Field boardField : board.getFields()){
+					if (boardField.getColor() == fieldColor && boardField instanceof Street){
+						groupAmount++;
+					}
+				}
+				
+				//we find streets in group owned by player
+				int ownedInGroup = 0;
+				for(Ownable ownedField : player.getAccount().getOwnedFields()){
+					if (ownedField.getColor() == fieldColor && ownedField instanceof Street){
+						ownedInGroup++;
+					}
+				}
+				
+				//we find out if player has all streets in group
+				if (ownedInGroup == groupAmount){ //player owns all in group
 					buyHouseChoice = true;
 					break;	
 				}
 			}
 			
-
 			//Player can buy houses
 			if (buyHouseChoice == true){
 
@@ -50,11 +71,10 @@ public class TurnController {
 
 				//Player wants to buy house or hotel
 				if (player.getChoice().equals(Messages.getGeneralMessages()[21])){
-
 					buyHouseHotel();
-
 				}
 			}
+			//Player can only throw dice
 			else{
 				player.setChoice(determineUserInput(new String[]{Messages.getGeneralMessages()[11] + player.getName() + Messages.getGeneralMessages()[12],
 						Messages.getGeneralMessages()[7]}));
@@ -77,13 +97,19 @@ public class TurnController {
 		if (movingPiece) {
 			movePiece();
 			landOnField();
+			if((currentField instanceof Chance) && (Chance.isMoveCard() == true)){
+				GUIController.removeAllCars(player.getName());
+				currentField = board.getFields()[player.getPiece().getPosition()-1];
+				GUIController.setCar(player.getPiece().getPosition(), player.getName());
+				landOnField();
+			}
 		}
 	}
 
 	protected void throwDice(){
 		dice.throwDice();
 		player.setLastThrow(dice);
-		GUIController.setDice(dice);
+		GUIController.setDice(dice.getDice()[0].getValue(),dice.getDice()[1].getValue());
 		
 		//Are dice equal?
 		if(dice.isEqual() == true){
@@ -108,33 +134,63 @@ public class TurnController {
 
 	protected void buyHouseHotel(){
 
-		//we find streets of all owned fields
-		Ownable[] ownedFields = player.getAccount().getOwnedFields();
+		Street[] ownedStreets = player.getAccount().getBuildableStreets();
+		
+		//we go through owned buildable streets
+		for (Street ownedStreet : player.getAccount().getBuildableStreets()){
+			
+			Color fieldColor = ownedStreet.getColor();
+			
+			//we find number of streets in group and min and max houses
+			int groupAmount = 0;
+			int maxHouses = 0;
+			int minHouses = 5;
+			for (Field boardField : board.getFields()){
+				if (boardField.getColor() == fieldColor && boardField instanceof Street){
+					groupAmount++;
 
-			//find number of streets
-			int streetCounter = 0;
-			for (Ownable i : ownedFields){
-				if (i instanceof Street 
-						&& ((Street) i).getHousesOwned() < 5
-						&& player.getAccount().getBalance() >= ((Street) i).getHousePrice()){
-					streetCounter++;
+					//we find current min amount of houses in group
+					if(((Street) boardField).getHousesOwned() < minHouses){
+						minHouses = ((Street) boardField).getHousesOwned();
+					}
+					
+					//we find current max amount of houses in group
+					if(((Street) boardField).getHousesOwned() > maxHouses){
+						maxHouses = ((Street) boardField).getHousesOwned();
+					}
 				}
 			}
-
-			//create new Street array
-			Street[] ownedStreets = new Street[streetCounter];
-
-			streetCounter = 0;
-			for (int i = 0; i < ownedFields.length; i++){
-				if (ownedFields[i] instanceof Street 
-						&& ((Street) ownedFields[i]).getHousesOwned() < 5
-						&& player.getAccount().getBalance() >= ((Street) ownedFields[i]).getHousePrice()){
-					ownedStreets[streetCounter] = (Street) ownedFields[i];
-					streetCounter++;
+			
+			//we find streets in group owned by player
+			int ownedInGroup = 0;
+			for(Ownable ownedField : player.getAccount().getOwnedFields()){
+				if (ownedField.getColor() == fieldColor && ownedField instanceof Street){
+					ownedInGroup++;
 				}
 			}
-
-		//we find all names of owned streets
+			
+			//we find out if player has all streets in group
+			if (ownedInGroup == groupAmount //player owns all in group
+				&& (ownedStreet.getHousesOwned() < maxHouses //field has less houses than other field in group
+					|| (ownedStreet.getHousesOwned() == maxHouses && minHouses == maxHouses))){ //all fields have same number of houses
+				//everything is good
+			}
+			//we remove street from ownedStreets
+			else{
+				Street[] oldArray = ownedStreets;
+				ownedStreets = new Street[oldArray.length-1];
+						
+				int counter = 0;
+				for (Street i : oldArray){
+					if (i != ownedStreet){
+						ownedStreets[counter] = i;
+						counter++;
+					}
+				}
+			}
+		}
+		
+		//we find names of the streets
 		String[] fieldNames = new String[ownedStreets.length];
 
 		for (int i = 0; i < fieldNames.length; i++){
@@ -159,14 +215,14 @@ public class TurnController {
 			chosenField.setHousesOwned(chosenField.getHousesOwned()+1);
 			
 			if (chosenField.getHousesOwned() == 5){
-				GUIController.setHotel(chosenField);
+				GUIController.setHotel(chosenField.getId());
 			}
 			else{
-				GUIController.setHouses(chosenField);
+				GUIController.setHouses(chosenField.getId(),chosenField.getHousesOwned());
 			}
 			
 			player.getAccount().setBalance(player.getAccount().getBalance()-chosenField.getHousePrice());
-			GUIController.setPlayerBalance(player);
+			GUIController.setPlayerBalance(player.getName(), player.getAccount().getBalance());
 		}
 		
 	}
@@ -178,7 +234,7 @@ public class TurnController {
 		/*
 		 * If there has already been placed a car, we remove it before placing a new one
 		 */
-		GUIController.removeAllCars(player);
+		GUIController.removeAllCars(player.getName());
 
 		// Make sure the player did not throw 3 equals in a row.
 		if (movingToPrison == false) {
@@ -194,7 +250,7 @@ public class TurnController {
 
 			//We set the car and piece position to the new values
 			player.getPiece().setPosition(position);
-			GUIController.setCar(player);
+			GUIController.setCar(player.getPiece().getPosition(),player.getName());
 			currentField = board.getFields()[position-1];
 
 			// Money when passing or landing on start
@@ -210,7 +266,7 @@ public class TurnController {
 				}
 				player.getAccount().setBalance(player.getAccount().getBalance() + payday);
 
-				GUIController.setPlayerBalance(player);
+				GUIController.setPlayerBalance(player.getName(), player.getAccount().getBalance());
 			}
 		}
 		else{
@@ -227,7 +283,7 @@ public class TurnController {
 		}
 
 		if (player.getPiece().getPosition()-1 == 30) { // goToPrison field.
-			GUIController.removeAllCars(player);
+			GUIController.removeAllCars(player.getName());
 			moveToPrison();
 			GUIController.showMessage(Messages.getGeneralMessages()[29]);
 		}
@@ -250,7 +306,7 @@ public class TurnController {
 				player.setChoice(playerChoice);
 
 				if (playerChoice.equals(Messages.getGeneralMessages()[1])) { // User chooses yes
-					GUIController.setFieldOwner(player, player.getPiece().getPosition());
+					GUIController.setFieldOwner(player.getName(), player.getPiece().getPosition());
 				}
 			}
 			// You don't have enough money to buy field
@@ -291,12 +347,16 @@ public class TurnController {
 			player.setChoice(playerChoice);
 			}
 		}
+	//Chance	
+		else if( currentField instanceof Chance){
+			GUIController.showMessage(Messages.getChanceMessages()[Chance.getCardID()]);
+		}
 
 		currentField.landOnField(player);
-		GUIController.setPlayerBalance(player);
+		GUIController.setPlayerBalance(player.getName(),player.getAccount().getBalance());
 		if (currentField instanceof Ownable){
 			if (((Ownable) currentField).getOwner() != null){
-				GUIController.setPlayerBalance(((Ownable) currentField).getOwner());
+				GUIController.setPlayerBalance(((Ownable) currentField).getOwner().getName(),((Ownable) currentField).getOwner().getAccount().getBalance());
 			}
 		}
 	}
@@ -325,10 +385,10 @@ public class TurnController {
 	}
 
 	protected void moveToPrison() {
-		GUIController.removeAllCars(player);
+		GUIController.removeAllCars(player.getName());
 		player.getPiece().setPosition(11);
 		player.setPrisonCount(3);
-		GUIController.setCar(player);
+		GUIController.setCar(player.getPiece().getPosition(),player.getName());
 		player.setEqualCount(0);
 		movingToPrison = false;
 	}
@@ -361,7 +421,7 @@ public class TurnController {
 				player.setEqualCount(0);
 				player.setPrisonCount(0);
 				player.getAccount().setBalance(player.getAccount().getBalance()-prisonEscapeFine); // pay the fine for getting out of prison
-				GUIController.setPlayerBalance(player);
+				GUIController.setPlayerBalance(player.getName(), player.getAccount().getBalance());
 				throwDice();
 				movingPiece = true;
 			}
@@ -377,7 +437,7 @@ public class TurnController {
 				player.setEqualCount(0);
 				player.setPrisonCount(0);
 				player.getAccount().setBalance(player.getAccount().getBalance()-prisonEscapeFine); // pay the fine for getting out of prison
-				GUIController.setPlayerBalance(player);
+				GUIController.setPlayerBalance(player.getName(), player.getAccount().getBalance());
 			}
 			movingPiece = true;
 		}

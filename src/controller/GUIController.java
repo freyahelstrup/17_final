@@ -1,5 +1,7 @@
 package controller;
 
+import java.awt.Color;
+
 import desktop_codebehind.Car;
 import desktop_resources.GUI;
 import entity.*;
@@ -41,6 +43,13 @@ public class GUIController {
 							.setSubText(determineSubText(board, i))
 							.build();	
 			}
+			else if (fields[i] instanceof Chance){
+					graphicfields[i] = new desktop_fields.Chance.Builder()
+//							.setTitle(determineSubText(board, i))
+//							.setDescription(Messages.getFieldNames()[i])
+//							.setSubText(determineSubText(board, i))
+							.build();
+			}	
 			else if (i == 20){
 				graphicfields[i] = new desktop_fields.Refuge.Builder()
 						.setTitle(Messages.getFieldNames()[i])
@@ -72,17 +81,17 @@ public class GUIController {
 		GUI.displayChanceCard();
 	}
 	
-	public static void addPlayer(Player player){
+	public static void addPlayer(String name, int balance, Color pieceColor){
 		Car car = new Car.Builder()
-				.primaryColor(player.getPiece().getColor())
+				.primaryColor(pieceColor)
 				.build();
-		GUI.addPlayer(player.getName(), player.getAccount().getBalance(), car);
-		GUI.setBalance(player.getName(), player.getAccount().getBalance());
-		GUI.setCar(1,player.getName());
+		GUI.addPlayer(name, balance, car);
+		GUI.setBalance(name, balance);
+		GUI.setCar(1,name);
 	}
 
-	public static void removeAllCars(Player player){
-		GUI.removeAllCars(player.getName());
+	public static void removeAllCars(String playerName){
+		GUI.removeAllCars(playerName);
 	}
 	
 	private static String determineSubText(Board board, int fieldNumber){
@@ -128,36 +137,36 @@ public class GUIController {
 		GUI.showMessage(message);
 	}
 	
-	public static void setDice(DiceCup dice){
-		GUI.setDice(dice.getDice()[0].getValue(), dice.getDice()[1].getValue());
+	public static void setDice(int value1, int value2){
+		GUI.setDice(value1, value2);
 	}
 	
-	public static void setCar(Player player){
-		GUI.setCar(player.getPiece().getPosition(), player.getName());
+	public static void setCar(int position, String playerName){
+		GUI.setCar(position, playerName);
 	}
 	
-	public static void setFieldOwner(Player player, int fieldNumber){
-			GUI.setOwner(fieldNumber, player.getName());
+	public static void setFieldOwner(String playerName, int fieldNumber){
+			GUI.setOwner(fieldNumber, playerName);
 	}
 
 	public static void removeFieldOwner(int fieldNumber){
 			GUI.removeOwner(fieldNumber);
 	}
 	
-	public static void setPlayerBalance(Player player){
-		GUI.setBalance(player.getName(), player.getAccount().getBalance());
+	public static void setPlayerBalance(String playerName, int balance){
+		GUI.setBalance(playerName, balance);
 	}
 	
 	public static String getUserSelection(String message, String ... options){
 		return GUI.getUserSelection(message, options);	
 	}
 	
-	public static void setHouses(Street field){
-		GUI.setHouses(field.getId(), field.getHousesOwned());
+	public static void setHouses(int fieldNumber, int houses){
+		GUI.setHouses(fieldNumber, houses);
 	}
 
-	public static void setHotel(Street field){
-		GUI.setHotel(field.getId(), true);
+	public static void setHotel(int fieldNumber){
+		GUI.setHotel(fieldNumber, true);
 	}
 	
 }
