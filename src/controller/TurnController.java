@@ -317,7 +317,7 @@ public class TurnController {
 				determineUserInput(new String[]{player.getName() + ": " + Messages.getGeneralMessages()[20]});
 			}
 		// You have to pay rent
-			else if (owner.getAccount().getBalance() >= 0){//pay rent to owner if he is not bankrupt
+			else if (owner != player){ 
 				int rent = 0;
 				if (currentField instanceof Brewery){
 					//when brewery we should multiply dice sum with 4 or 10, depending on the amount of owned brewery from the same owner.
