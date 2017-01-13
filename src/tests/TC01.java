@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import controller.GUIController;
 import entity.Player;
+import entity.Street;
 import entity.Account;
 import entity.Board;
 import entity.Messages;
@@ -31,6 +32,7 @@ public class TC01 {
 		
 		assertEquals(player.getAccount().getBalance(), 1500-60);
 		assertEquals(player.getAccount().getOwnedFields()[0], board.getFields()[3]);
+		assertEquals(((Street) board.getFields()[3]).getOwner(), player);
 	}
 
 }
