@@ -43,15 +43,97 @@ public class TC05 {
 		GUI.close();
 	}
 	
-	/*
+	
 	@Test
 	public void balanceTest(){
+		Player player = new Player(1,"Hansi", new Piece(Color.red),new Account(1500));
+		Board board = new Board();
+		GUIController.initializeBoard(board);
 		
+		Chance chance = new Chance(500, Color.WHITE);
+		chance.setDeck(new int[]{10});
+		
+		TurnController_TestClass turn = new TurnController_TestClass(player, board);
+		turn.setTestData(new int[]{6,1}); //Land på chance
+		turn.setUserChoice(new String[]{
+				Messages.getGeneralMessages()[7] //Slå terninger
+				,Messages.getGeneralMessages()[13] //OK
+				,Messages.getGeneralMessages()[13] //OK
+		});
+		turn.playTurn();
+		
+		assertEquals(1400, player.getAccount().getBalance());
+
+		GUI.close();
 	}
 	
 	@Test
-	public void legatTest(){
+	public void legatTest_750(){
+		Player player = new Player(1,"Hansi", new Piece(Color.red),new Account(750));
+		Board board = new Board();
+		GUIController.initializeBoard(board);
 		
-	}*/
+		Chance chance = new Chance(500, Color.WHITE);
+		chance.setDeck(new int[]{17});
+		
+		TurnController_TestClass turn = new TurnController_TestClass(player, board);
+		turn.setTestData(new int[]{6,1}); //Land på chance
+		turn.setUserChoice(new String[]{
+				Messages.getGeneralMessages()[7] //Slå terninger
+				,Messages.getGeneralMessages()[13] //OK
+				,Messages.getGeneralMessages()[13] //OK
+		});
+		turn.playTurn();
+		
+		assertEquals(2750, player.getAccount().getBalance());
+
+		GUI.close();
+	}
+
+	@Test
+	public void legatTest_749(){
+		Player player = new Player(1,"Hansi", new Piece(Color.red),new Account(749));
+		Board board = new Board();
+		GUIController.initializeBoard(board);
+		
+		Chance chance = new Chance(500, Color.WHITE);
+		chance.setDeck(new int[]{17});
+		
+		TurnController_TestClass turn = new TurnController_TestClass(player, board);
+		turn.setTestData(new int[]{6,1}); //Land på chance
+		turn.setUserChoice(new String[]{
+				Messages.getGeneralMessages()[7] //Slå terninger
+				,Messages.getGeneralMessages()[13] //OK
+				,Messages.getGeneralMessages()[13] //OK
+		});
+		turn.playTurn();
+		
+		assertEquals(2749, player.getAccount().getBalance());
+
+		GUI.close();
+	}
+
+	@Test
+	public void legatTest_751(){
+		Player player = new Player(1,"Hansi", new Piece(Color.red),new Account(751));
+		Board board = new Board();
+		GUIController.initializeBoard(board);
+		
+		Chance chance = new Chance(500, Color.WHITE);
+		chance.setDeck(new int[]{17});
+		
+		TurnController_TestClass turn = new TurnController_TestClass(player, board);
+		turn.setTestData(new int[]{6,1}); //Land på chance
+		turn.setUserChoice(new String[]{
+				Messages.getGeneralMessages()[7] //Slå terninger
+				,Messages.getGeneralMessages()[13] //OK
+				,Messages.getGeneralMessages()[13] //OK
+		});
+		turn.playTurn();
+		
+		assertEquals(751, player.getAccount().getBalance());
+
+		GUI.close();
+	}
 
 }
