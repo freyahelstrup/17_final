@@ -15,7 +15,7 @@ import entity.Messages;
 import entity.Piece;
 import entity.Player;
 
-public class TC08 {
+public class TC07 {
 
 	@Test
 	public void goToPrisonField(){
