@@ -33,7 +33,6 @@ public class TC05 {
 				,Messages.getGeneralMessages()[13] //OK
 				,Messages.getGeneralMessages()[13] //OK
 				,Messages.getGeneralMessages()[4] + 200 //Betal: 200
-				,Messages.getGeneralMessages()[13] //OK
 		});
 		turn.playTurn();
 		
