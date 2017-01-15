@@ -7,6 +7,7 @@ import java.awt.Color;
 import org.junit.Test;
 
 import controller.GUIController;
+import desktop_resources.GUI;
 import entity.Account;
 import entity.Board;
 import entity.Messages;
@@ -39,7 +40,8 @@ public class TC06 {
 		
 		assertEquals(player1.getAccount().getBalance(), 1500-4);
 		assertEquals(player2.getAccount().getBalance(), 1500+4);
-		
+
+		GUI.close();
 	}
 
 	@Test
@@ -67,7 +69,8 @@ public class TC06 {
 		
 		assertEquals(player1.getAccount().getBalance(), 1500-320);
 		assertEquals(player2.getAccount().getBalance(), 1500+320);
-		
+
+		GUI.close();
 	}
 
 	@Test
@@ -96,6 +99,8 @@ public class TC06 {
 		
 		assertEquals(player1.getAccount().getBalance(), 1500-8);
 		assertEquals(player2.getAccount().getBalance(), 1500+8);
+
+		GUI.close();
 		
 	}
 

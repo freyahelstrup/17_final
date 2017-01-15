@@ -7,6 +7,7 @@ import java.awt.Color;
 import org.junit.Test;
 
 import controller.GUIController;
+import desktop_resources.GUI;
 import entity.Account;
 import entity.Board;
 import entity.Messages;
@@ -46,6 +47,7 @@ public class TC02 {
 		assertEquals(1500-50, player.getAccount().getBalance());
 		assertEquals(1, ((Street) board.getFields()[1]).getHousesOwned());
 
+		GUI.close();
 	}
 
 }

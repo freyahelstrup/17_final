@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import demo.DemoGameController;
+import desktop_resources.GUI;
 import entity.Messages;
 
 public class TC03 {
@@ -19,7 +20,8 @@ public class TC03 {
 				,Messages.getGeneralMessages()[4] + "200"}});//Betal 200
 		game.playGame();
 		assertEquals(game.getPlayerArray().length, 1);
-		
+
+		GUI.close();
 	}
 
 }

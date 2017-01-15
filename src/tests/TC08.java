@@ -8,6 +8,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import controller.GUIController;
+import desktop_resources.GUI;
 
 public class TC08 {
 
@@ -78,5 +79,7 @@ public class TC08 {
 		
 		assertEquals(1500, player.getAccount().getBalance());
 		assertEquals(2, player.getPrisonCount());
+
+		GUI.close();
 	}
 }

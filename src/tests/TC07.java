@@ -6,6 +6,7 @@ import java.awt.Color;
 
 import org.junit.Test;
 
+import desktop_resources.GUI;
 import tests.TurnController_TestClass;
 
 import entity.Board;
@@ -47,7 +48,8 @@ public class TC07 {
 		
 		assertEquals(3, players[1].getPrisonCount());
 		assertEquals(11, players[1].getPiece().getPosition());
-		
+
+		GUI.close();
 	}
 	
 }

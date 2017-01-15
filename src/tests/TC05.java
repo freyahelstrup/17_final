@@ -7,6 +7,7 @@ import java.awt.Color;
 import org.junit.Test;
 
 import controller.GUIController;
+import desktop_resources.GUI;
 import entity.Account;
 import entity.Board;
 import entity.Chance;
@@ -38,6 +39,8 @@ public class TC05 {
 		
 		assertEquals(5, player.getPiece().getPosition());
 		assertEquals(1300, player.getAccount().getBalance());
+
+		GUI.close();
 	}
 	
 	/*
