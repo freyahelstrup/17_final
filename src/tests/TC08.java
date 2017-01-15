@@ -48,7 +48,9 @@ public class TC08 {
 		turn.setTestData(new int[]{4,4}); //roll two equal dice
 		turn.setUserChoice(new String[]{
 				Messages.getGeneralMessages()[7], //slå med terningerne
-				Messages.getGeneralMessages()[13] //OK
+				Messages.getGeneralMessages()[7], //slå med terningerne
+				Messages.getGeneralMessages()[13], //OK
+				Messages.getGeneralMessages()[2], //Nej
 		});
 		turn.playTurn();
 		
