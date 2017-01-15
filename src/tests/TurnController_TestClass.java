@@ -43,7 +43,26 @@ public class TurnController_TestClass extends TurnController {
 			//if the teachers want us to keep playing after the demo
 			dice.throwDice();
 		}
+		
+		if(dice.isEqual() == true){
+			//Player has thrown equals less than 3 times in a row
+			if (player.getEqualCount() != 2){
+				player.setEqualCount(player.getEqualCount()+1);
+				movingToPrison = false;
+			}
+			//Player has thrown equals 3 times in a row
+			else{
+				movingToPrison = true;
+				player.setEqualCount(0);
+			}
+		}
+		else{
+			player.setEqualCount(0);
+			movingToPrison = false;
+		}
+		
 	}
+		
 	
 	@Override
 	public void playTurn(){
