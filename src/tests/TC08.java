@@ -29,7 +29,7 @@ public class TC08 {
 		
 		assertEquals(player.getAccount().getBalance(), 1500-50);
 		assertEquals(player.getPrisonCount(), 0);
-	}
+	} 
 	
 	@Test
 	public void prison_diceEscape_success(){ 	//the player is in prison, chooses to throw dice and
