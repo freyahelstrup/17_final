@@ -47,7 +47,6 @@ public class DemoGameController extends GameController {
 		};
 	int testDataCounter = 0;
 	String[][] userChoice = new String[][]{
-		{}
 		};
 	int userChoiceCounter = 0;
 	

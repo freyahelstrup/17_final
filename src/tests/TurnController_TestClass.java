@@ -22,11 +22,38 @@ public class TurnController_TestClass extends TurnController {
 		super(player, board); //The super class constructor does all the work of instantiating the class
 		//The playTurn() method of the super class can be used to run the turn
 		dice = new DiceCup(6,2);
+		setTestData(new int[]{});
+		setUserChoice(new String[]{});
 	}
 	
 	@Override
 	protected String determineUserInput(String[] input){
-		return userChoice[userChoiceCounter++]; //We return the current userChoice and then increment the counter
+		String text;
+		if(userChoiceCounter >= userChoice.length){
+			switch(input.length) {
+				case 1:
+					GUIController.showMessage(input[0]);
+					text = Messages.getGeneralMessages()[13]; //OK
+					break;
+				case 2:
+					text = GUIController.getUserButtonPressed(input[0], input[1]);
+					break;
+				case 3:
+					text = GUIController.getUserButtonPressed(input[0], input[1], input[2]);
+					break;
+				case 4:
+					text = GUIController.getUserButtonPressed(input[0], input[1], input[2], input[3]);
+					break;
+				default:
+					text = "";
+					break;
+			}
+		}
+		else{
+			text = userChoice[userChoiceCounter++];
+		}
+		
+		return text; //We return the current userChoice and then increment the counter
 	}
 	
 	@Override
