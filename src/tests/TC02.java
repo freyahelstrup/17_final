@@ -38,11 +38,13 @@ public class TC02 {
 				,Messages.getFieldNames()[1] //Field 2
 				,Messages.getGeneralMessages()[1] //Ja
 				,Messages.getGeneralMessages()[7] //Slå med terninger
+				,Messages.getGeneralMessages()[13] //OK
+				,Messages.getGeneralMessages()[13] //OK
 		});
 		turn.playTurn();
 		
-		assertEquals(player.getAccount().getBalance(), 1500-50);
-		assertEquals(((Street) board.getFields()[1]).getHousesOwned(), 1);
+		assertEquals(1500-50, player.getAccount().getBalance());
+		assertEquals(1, ((Street) board.getFields()[1]).getHousesOwned());
 
 	}
 

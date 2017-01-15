@@ -26,6 +26,7 @@ public class TC01 {
 		turn.setTestData(new int[]{1,2}); //Land på Rødovrevej
 		turn.setUserChoice(new String[]{
 				Messages.getGeneralMessages()[7] //Slå terninger
+				,Messages.getGeneralMessages()[13] //OK
 				,Messages.getGeneralMessages()[1] //Køb felt
 		});
 		turn.playTurn();

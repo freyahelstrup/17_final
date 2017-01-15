@@ -33,6 +33,7 @@ public class TC06 {
 		turn.setUserChoice(new String[]{
 				Messages.getGeneralMessages()[7] //Slå terninger
 				,Messages.getGeneralMessages()[13] //OK
+				,Messages.getGeneralMessages()[13] //OK
 		});
 		turn.playTurn();
 		
@@ -59,6 +60,7 @@ public class TC06 {
 		turn.setTestData(new int[]{1,2}); //Land på Hvidovre
 		turn.setUserChoice(new String[]{
 				Messages.getGeneralMessages()[7] //Slå terninger
+				,Messages.getGeneralMessages()[13] //OK
 				,Messages.getGeneralMessages()[13] //OK
 		});
 		turn.playTurn();
@@ -87,6 +89,7 @@ public class TC06 {
 		turn.setTestData(new int[]{1,2}); //Land på Hvidovre
 		turn.setUserChoice(new String[]{
 				Messages.getGeneralMessages()[7] //Slå terninger
+				,Messages.getGeneralMessages()[13] //OK
 				,Messages.getGeneralMessages()[13] //OK
 		});
 		turn.playTurn();
