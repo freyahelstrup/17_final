@@ -20,10 +20,13 @@ public class TC08 {
 		TurnController_TestClass turn = new TurnController_TestClass(player, board);
 		player.getPiece().setPosition(11);
 		player.setPrisonCount(3);
-		
+
+		turn.setTestData(new int[]{1,1}); //roll two equal dice
 		turn.setUserChoice(new String[]{
 				Messages.getGeneralMessages()[7], //slå med terningerne
-				Messages.getGeneralMessages()[31] //"Betal 50 kr."	
+				Messages.getGeneralMessages()[31], //"Betal 50 kr."	
+				Messages.getGeneralMessages()[13], //OK
+				Messages.getGeneralMessages()[2] //Nej
 		});
 		turn.playTurn();
 		
@@ -45,7 +48,7 @@ public class TC08 {
 		turn.setTestData(new int[]{4,4}); //roll two equal dice
 		turn.setUserChoice(new String[]{
 				Messages.getGeneralMessages()[7], //slå med terningerne
-				Messages.getGeneralMessages()[7] //slå med terningerne
+				Messages.getGeneralMessages()[13] //OK
 		});
 		turn.playTurn();
 		
