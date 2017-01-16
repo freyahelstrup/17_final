@@ -6,15 +6,17 @@ import java.awt.Color;
 
 import org.junit.Test;
 
+import desktop_resources.GUI;
 import tests.TurnController_TestClass;
 
 import entity.Board;
 import entity.Account;
 import entity.GoToPrison;
+import entity.Messages;
 import entity.Piece;
 import entity.Player;
 
-public class Prison_Test {
+public class TC07 {
 
 	@Test
 	public void goToPrisonField(){
@@ -37,12 +39,17 @@ public class Prison_Test {
 		
 		int[] data = {1,1};
 		controller.setTestData(data);
+		controller.setUserChoice(new String[]{
+				Messages.getGeneralMessages()[7] //Slå terninger
+				,Messages.getGeneralMessages()[13] //OK
+		});
 				
 		controller.playTurn();
 		
 		assertEquals(3, players[1].getPrisonCount());
 		assertEquals(11, players[1].getPiece().getPosition());
-		
+
+		GUI.close();
 	}
 	
 }

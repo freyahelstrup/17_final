@@ -195,4 +195,8 @@ public class Chance extends Field {
 		return isMoveCard;
 	}
 	
+	public void setDeck(int[] data){
+		chanceCards = data;
+	}
+	
 }
