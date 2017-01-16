@@ -22,7 +22,6 @@ public class TurnController_TestClass extends TurnController {
 		super(player, board); //The super class constructor does all the work of instantiating the class
 		//The playTurn() method of the super class can be used to run the turn
 		dice = new DiceCup(6,2);
-		setTestData(new int[]{});
 		setUserChoice(new String[]{});
 	}
 	
@@ -156,7 +155,15 @@ public class TurnController_TestClass extends TurnController {
 		}
 
 		//For which street do you want a house/hotel?
-		String userSelection = userChoice[userChoiceCounter];
+		String userSelection;
+		
+		if (userChoiceCounter >= userChoice.length){
+			userSelection = GUIController.getUserSelection(Messages.getGeneralMessages()[30], fieldNames);
+		}
+		else{
+			userSelection = userChoice[userChoiceCounter];
+		}
+		
 		userChoiceCounter++;
 		
 		Street chosenField = null;
