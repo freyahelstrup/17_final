@@ -68,6 +68,9 @@ public class TurnController_TestClass extends TurnController {
 			dice.throwDice();
 		}
 		
+		player.setLastThrow(dice);
+		GUIController.setDice(dice.getDice()[0].getValue(),dice.getDice()[1].getValue());
+		
 		if(dice.isEqual() == true){
 			//Player has thrown equals less than 3 times in a row
 			if (player.getEqualCount() != 2){
