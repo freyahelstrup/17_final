@@ -126,7 +126,13 @@ public class GameController {
 					arrayIndex=i;
 				}
 			}
-			nextPlayer = players[arrayIndex+1];
+			
+			if(currentPlayer.getAccount().getBalance() < 0){
+				nextPlayer = players[arrayIndex];
+			}
+			else{
+				nextPlayer = players[arrayIndex+1];
+			}
 		}
 
 		return nextPlayer;
