@@ -8,43 +8,46 @@ import entity.Chance;
 
 public class DemoGameController extends GameController {
 	int[][] testData = new int[][]{
-		{5,1}, 	//Roskildevej
 		{4,1}, 	//Øresund
 		{3,1},	//Indkomstskat
+		{5,3}, 	//Valby Langgade
 		
-		{5,1},	//Tuborg
-		{6,1},	//Tuborg (leje) 4*7
-		{1,1}, 	//Roskildevej (leje)
-		{3,1},	//På besøg i fængsel (ryk dobbelt efter terningekast lige med hinanden)
+		{5,2},	//Tuborg
+		{1,3},	//Valby Langgade (leje)
+		{1,1}, 	//Fængsel - på besøg
+		{1,1}, 	//Tuborg (leje 4*4)
+		{1,1}, 	//Tre ens i træk - fængsel
 		
-		{4,1},	//Prøv lykken - rykker 3 felter tilbage til Gl. Kongevej
 		{2,1}, 	//DFDS
-		{4,1}, 	//DFDS (leje)
+		{4,5},	//Prøv lykken - rykker 3 felter tilbage til Gl. Kongevej
+		{1,1}, 	//Slå to ens, ud af fængsel
+		{2,1}, 	//DFDS (leje)
 		
-		{6,5}, 	//ØK
-		{6,4},	//ØK (leje)
+		{6,4}, 	//ØK
+		{6,5},	//ØK (leje)
 		{4,1},	//Parkering
 		
 		{2,1},	//Carlsberg
-		{2,1},	//Carlsberg (leje) 3*10
+		{2,1},	//Carlsberg (leje 10*3)
 		{1,1},	//Prøv lykken - Betal 75 kr for øl
-		{1,1},	//Grønningen
-		{1,1}, 	//Fængsel
+		{5,5},	//Vimmelskaftet
+		{5,4}, 	//Rødovrevej
 		
 		{1,1}, 	//Gå i fængsel
-		{6,4}, 	//Skat uden taxrate
-		{1,2}, 	//Slå ikke to ens
-		
-		{1,1}, 	//Spiller 1 slår ud
-		{1,2},	//DFDS
-		{1,2},	//Rødovrevej
-		{1,2}, 	//Spiller 3 slår ikke ud
-		
-		{1,1}, 	//Prøv lykken - Matadorlegatet
-		{1,3}, 	//Ikke vigtigt slag
+		{6,4}, 	//Ekstraordinær Statsskat
 		{1,1}, 	//Hvidovre
-		{1,6},  //Køb hus - Fængsel
-		{1,3}	//Spiller 3 slår ikke ud og er tvunget til at betale 50 kr.
+		{1,6},  //Køb hus, Fængsel
+		
+		{3,4}, 	//Spiller 1 slår ikke ud
+		{1,2},	//Rødovrevej (leje)
+		{3,1}, 	//Gl. Kongevej (leje)
+
+		{3,4}, 	//Spiller 1 slår ikke ud
+		{1,1}, 	//Hvidovre (leje)
+		{1,3}, 	//Prøv lykken - Matadorlegatet
+		{1,5},	//Helle
+
+		{3,4}, 	//Spiller 1 slår ikke ud og er tvunget til at betale 50 kr.
 		
 		};
 	int testDataCounter = 0;
