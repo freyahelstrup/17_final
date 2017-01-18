@@ -63,16 +63,16 @@ public class GameController {
 			TurnController turn = new TurnController(currentPlayer,board);
 			turn.playTurn();
 			
-			if (currentPlayer.getAccount().getBalance() < 0){
-				removePlayer(currentPlayer);
+			Player prevPlayer = currentPlayer;
+			currentPlayer = defineNextPlayer(currentPlayer);
+			
+			if (prevPlayer.getAccount().getBalance() < 0){
+				removePlayer(prevPlayer);
 			}
 
 			if (players.length == 1){
 				winnerFound = true;
 				GUIController.showMessage(players[0].getName() + Messages.getGeneralMessages()[15]);
-			}
-			else{
-				currentPlayer = defineNextPlayer(currentPlayer);
 			}
 		}
 	}
@@ -109,7 +109,7 @@ public class GameController {
 
 	protected Player defineNextPlayer(Player currentPlayer){
 		Player nextPlayer;
-
+		
 		//current player threw two equal
 		if(currentPlayer.getEqualCount() > 0 && currentPlayer.getAccount().getBalance() >= 0){
 			nextPlayer = currentPlayer;
@@ -127,12 +127,8 @@ public class GameController {
 				}
 			}
 			
-			if(currentPlayer.getAccount().getBalance() < 0){
-				nextPlayer = players[arrayIndex];
-			}
-			else{
-				nextPlayer = players[arrayIndex+1];
-			}
+			nextPlayer = players[arrayIndex+1];
+
 		}
 
 		return nextPlayer;
