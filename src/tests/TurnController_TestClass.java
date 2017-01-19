@@ -22,7 +22,6 @@ public class TurnController_TestClass extends TurnController {
 		super(player, board); //The super class constructor does all the work of instantiating the class
 		//The playTurn() method of the super class can be used to run the turn
 		dice = new DiceCup(6,2);
-		setTestData(new int[]{});
 		setUserChoice(new String[]{});
 	}
 	
@@ -67,6 +66,9 @@ public class TurnController_TestClass extends TurnController {
 			//if the teachers want us to keep playing after the demo
 			dice.throwDice();
 		}
+		
+		player.setLastThrow(dice);
+		GUIController.setDice(dice.getDice()[0].getValue(),dice.getDice()[1].getValue());
 		
 		if(dice.isEqual() == true){
 			//Player has thrown equals less than 3 times in a row
@@ -153,7 +155,15 @@ public class TurnController_TestClass extends TurnController {
 		}
 
 		//For which street do you want a house/hotel?
-		String userSelection = userChoice[userChoiceCounter];
+		String userSelection;
+		
+		if (userChoiceCounter >= userChoice.length){
+			userSelection = GUIController.getUserSelection(Messages.getGeneralMessages()[30], fieldNames);
+		}
+		else{
+			userSelection = userChoice[userChoiceCounter];
+		}
+		
 		userChoiceCounter++;
 		
 		Street chosenField = null;
